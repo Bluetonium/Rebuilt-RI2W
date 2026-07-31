@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "vscjava.vscode-java-debug",
+        "redhat.java",
+        "wpilibsuite.vscode-wpilib",
+        "fanaticpythoner.better-todo-tree",
+        "maattdd.gitless",
+        "lcjuves.vscode-gjf",
+        "streetsidesoftware.code-spell-checker"
+    ]
+}

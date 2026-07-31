@@ -1,0 +1,57 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "Talon FX (v6)[16]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[17]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[17]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/AdvantageKit/RealOutputs/PathPlanner": "Alerts",
+      "/FMSInfo": "FMSInfo",
+      "/Pose": "Field2d",
+      "/SmartDashboard/Autonomous": "String Chooser",
+      "/SmartDashboard/Command Scheduler": "Scheduler",
+      "/SmartDashboard/Module 0": "Mechanism2d",
+      "/SmartDashboard/Module 1": "Mechanism2d",
+      "/SmartDashboard/Module 2": "Mechanism2d",
+      "/SmartDashboard/Module 3": "Mechanism2d",
+      "/SmartDashboard/PathPlanner": "Alerts",
+      "/SmartDashboard/RightView": "Mechanism2d"
+    },
+    "windows": {
+      "/Pose": {
+        "bottom": 1914,
+        "height": 8.069275856018066,
+        "left": 245,
+        "right": 3942,
+        "top": 118,
+        "width": 16.54119300842285,
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/RightView": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  }
+}
