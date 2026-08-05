@@ -13,41 +13,59 @@ import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
 import lombok.Getter;
 
 public class RobotContainer {
-  // Subsystems
-  @Getter private static CommandSwerveDrivetrain drivetrain = null;
+    // Subsystems
+    @Getter
+    private static CommandSwerveDrivetrain drivetrain = null;
 
-  @Getter private static Drivers driver1 = null;
+    @Getter
+    private static Drivers driver1 = null;
 
-  @Getter private static Drivers driver2 = null;
+    @Getter
+    private static Drivers driver2 = null;
+    // audio
+    private SendableChooser<Command> autoChooser; // TODO implement pathplanner
+    private static Command currentAuto;
 
-  // audio
-  private SendableChooser<Command> autoChooser; // TODO implement pathplanner
-  private static Command currentAuto;
+    public RobotContainer() {
+        initializeSubsystems();
+        RobotStates.setupStates();
 
-  public RobotContainer() {
-    initializeSubsystems();
-    RobotStates.setupStates();
+        setupSubsystems();
 
-    setupSubsystems();
+        // autoChooser = AutoBuilder.buildAutoChooser();
+        // currentAuto = autoChooser.getSelected();
+        // autoChooser.onChange((command) -> currentAuto = command);
+        // SmartDashboard.putData("Autonomous", autoChooser);
+    }
 
-    // autoChooser = AutoBuilder.buildAutoChooser();
-    // currentAuto = autoChooser.getSelected();
-    // autoChooser.onChange((command) -> currentAuto = command);
-    // SmartDashboard.putData("Autonomous", autoChooser);
-  }
+    public Command getAutonomousCommand() {
+        return currentAuto;
 
-  public Command getAutonomousCommand() {
-    return currentAuto;
-  }
+        // Simple drive forward auton
+        /*
+         * final var idle = new SwerveRequest.Idle();
+         * return Commands.sequence(
+         * // Reset our field centric heading to match the robot
+         * // facing away from our alliance station wall (0 deg).
+         * drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
+         * // Then slowly drive forward (away from us) for 5 seconds.
+         * drivetrain.applyRequest(() -> drive.withVelocityX(0.5)
+         * .withVelocityY(0)
+         * .withRotationalRate(0))
+         * .withTimeout(5.0),
+         * // Finally idle for the rest of auton
+         * drivetrain.applyRequest(() -> idle));
+         */
+    }
 
-  private void initializeSubsystems() {
-    driver1 = new Drivers(0).withControl(CONTROLLABLE_SYSTEMS.CHASSIS);
-    driver2 = new Drivers(1);
+    private void initializeSubsystems() {
+        driver1 = new Drivers(0).withControl(CONTROLLABLE_SYSTEMS.CHASSIS);
+        driver2 = new Drivers(1);
 
-    drivetrain = TunerConstants.createDrivetrain();
-  }
+        drivetrain = TunerConstants.createDrivetrain();
+    }
 
-  private void setupSubsystems() {
-    drivetrain.setup();
-  }
+    private void setupSubsystems() {
+        drivetrain.setup();
+    }
 }
