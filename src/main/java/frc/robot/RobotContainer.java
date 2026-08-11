@@ -4,68 +4,53 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.auton.Auton;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.drivers.DriverConstants.CONTROLLABLE_SYSTEMS;
-import frc.robot.subsystems.drivers.Drivers;
+import frc.robot.subsystems.SubsystemTesting;
+import frc.robot.subsystems.controller.Controller;
+import frc.robot.subsystems.controller.ControllerConstants.CONTROLLABLE_SYSTEMS;
 import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
+import frc.robot.subsystems.vision.Vision;
 import lombok.Getter;
 
 public class RobotContainer {
-    // Subsystems
-    @Getter
-    private static CommandSwerveDrivetrain drivetrain = null;
+  // Subsystems
+  @Getter
+  private static CommandSwerveDrivetrain m_drivetrain = null;
 
-    @Getter
-    private static Drivers driver1 = null;
+  @Getter
+  private static Controller m_controller1 = null;
 
-    @Getter
-    private static Drivers driver2 = null;
-    // audio
-    private SendableChooser<Command> autoChooser; // TODO implement pathplanner
-    private static Command currentAuto;
+  @Getter
+  private static Controller m_controller2 = null;
 
-    public RobotContainer() {
-        initializeSubsystems();
-        RobotStates.setupStates();
+  @Getter
+  private static Controller m_testingController = null;// used for running the
+  // subsystem tests
+  @Getter
+  private static Vision m_vision = null;
 
-        setupSubsystems();
+  public RobotContainer() {
+    initializeSubsystems();
+    RobotStates.setupStates();
+    setupSubsystems();
+    RobotSim.SetupSim();
+    Auton.initializeAuton();
+  }
 
-        // autoChooser = AutoBuilder.buildAutoChooser();
-        // currentAuto = autoChooser.getSelected();
-        // autoChooser.onChange((command) -> currentAuto = command);
-        // SmartDashboard.putData("Autonomous", autoChooser);
-    }
+  private void initializeSubsystems() {
+    m_controller1 = new Controller(0).withControl(CONTROLLABLE_SYSTEMS.kChassis);
+    m_controller2 = new Controller(1);
+    m_testingController = new Controller(2).withControl(CONTROLLABLE_SYSTEMS.kTests);
 
-    public Command getAutonomousCommand() {
-        return currentAuto;
+    m_drivetrain = TunerConstants.createDrivetrain();
 
-        // Simple drive forward auton
-        /*
-         * final var idle = new SwerveRequest.Idle();
-         * return Commands.sequence(
-         * // Reset our field centric heading to match the robot
-         * // facing away from our alliance station wall (0 deg).
-         * drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
-         * // Then slowly drive forward (away from us) for 5 seconds.
-         * drivetrain.applyRequest(() -> drive.withVelocityX(0.5)
-         * .withVelocityY(0)
-         * .withRotationalRate(0))
-         * .withTimeout(5.0),
-         * // Finally idle for the rest of auton
-         * drivetrain.applyRequest(() -> idle));
-         */
-    }
+    m_vision = new Vision();
+  }
 
-    private void initializeSubsystems() {
-        driver1 = new Drivers(0).withControl(CONTROLLABLE_SYSTEMS.CHASSIS);
-        driver2 = new Drivers(1);
-
-        drivetrain = TunerConstants.createDrivetrain();
-    }
-
-    private void setupSubsystems() {
-        drivetrain.setup();
-    }
+  private void setupSubsystems() {
+    SubsystemTesting.setupTests();
+    m_drivetrain.setup();
+    m_vision.setup();
+  }
 }

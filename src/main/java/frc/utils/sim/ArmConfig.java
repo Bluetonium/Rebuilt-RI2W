@@ -7,106 +7,88 @@ import lombok.Setter;
 
 public class ArmConfig {
 
-    @Getter
-    @Setter
-    private int numMotors = 1;
-    @Getter
-    @Setter
-    private double initialX = 0.7;
-    @Getter
-    @Setter
-    private double initialY = 0.3;
-    @Getter
-    @Setter
-    private double pivotX = 0.7;
-    @Getter
-    @Setter
-    private double pivotY = 0.3;
+    @Getter @Setter
+    private int m_numMotors = 1;
+    @Getter @Setter
+    private double m_initialX = 0.7;
+    @Getter @Setter
+    private double m_initialY = 0.3;
+    @Getter @Setter
+    private double m_pivotX = 0.7;
+    @Getter @Setter
+    private double m_pivotY = 0.3;
 
-    @Getter
-    @Setter
-    private double ratio = 50; // the number of rotations it takes for the mechanism to do one revolution
+    @Getter @Setter
+    private double m_ratio = 50; // the number of rotations it takes for the
+                                 // mechanism to do one revolution
 
+    @Getter @Setter
+    private double m_length = 0.5;
+    @Getter @Setter
+    private double m_simMOI = 1.2;
+    @Getter @Setter
+    private double m_simCGLength = 0.2;
+    @Getter @Setter
+    private double m_minAngle = Math.toRadians(-60);
+    @Getter @Setter
+    private double m_maxAngle = Math.toRadians(90);
+    @Getter @Setter
+    private double m_startingAngle = Math.toRadians(90);
+    @Getter @Setter
+    private boolean m_simulateGravity = true;
     @Getter
-    @Setter
-    private double length = 0.5;
+    private boolean m_mounted = false;
     @Getter
-    @Setter
-    private double simMOI = 1.2;
+    private Mount m_mount;
     @Getter
-    @Setter
-    private double simCGLength = 0.2;
+    private double m_initMountX;
     @Getter
-    @Setter
-    private double minAngle = Math.toRadians(-60);
+    private double m_initMountY;
     @Getter
-    @Setter
-    private double maxAngle = Math.toRadians(90);
+    private double m_initMountAngle;
     @Getter
-    @Setter
-    private double startingAngle = Math.toRadians(90);
+    private boolean m_absAngle;
     @Getter
-    @Setter
-    private boolean simulateGravity = true;
-    @Getter
-    private boolean mounted = false;
-    @Getter
-    private Mount mount;
-    @Getter
-    private double initMountX;
-    @Getter
-    private double initMountY;
-    @Getter
-    private double initMountAngle;
-    @Getter
-    private boolean absAngle;
-    @Getter
-    private Color8Bit color = new Color8Bit(Color.kBlue);
+    private Color8Bit m_color = new Color8Bit(Color.kBlue);
 
-    public ArmConfig(
-            double initialX,
-            double initialY,
-            double ratio,
-            double length,
-            double minAngleDegrees,
-            double maxAngleDegrees,
-            double startingAngleDegrees) {
-        this.ratio = ratio;
-        this.length = length;
-        this.minAngle = Math.toRadians(minAngleDegrees);
-        this.maxAngle = Math.toRadians(maxAngleDegrees);
-        this.startingAngle = Math.toRadians(startingAngleDegrees);
-        this.initialX = initialX;
-        this.initialY = initialY;
-        this.pivotX = initialX;
-        this.pivotY = initialY;
+    public ArmConfig(double initialX, double initialY, double ratio, double length, double minAngleDegrees,
+    double maxAngleDegrees, double startingAngleDegrees) {
+        this.m_ratio = ratio;
+        this.m_length = length;
+        this.m_minAngle = Math.toRadians(minAngleDegrees);
+        this.m_maxAngle = Math.toRadians(maxAngleDegrees);
+        this.m_startingAngle = Math.toRadians(startingAngleDegrees);
+        this.m_initialX = initialX;
+        this.m_initialY = initialY;
+        this.m_pivotX = initialX;
+        this.m_pivotY = initialY;
     }
 
-    public ArmConfig setColor(Color8Bit color) {
-        this.color = color;
+    public ArmConfig setM_color(Color8Bit color) {
+        this.m_color = color;
         return this;
     }
 
     public ArmConfig setMount(LinearSim sim, boolean fixedAngle) {
         if (sim != null) {
-            mounted = true;
-            mount = sim;
-            initMountX = sim.getConfig().getInitialX();
-            initMountY = sim.getConfig().getInitialY();
-            initMountAngle = Math.toRadians(sim.getConfig().getAngle());
-            this.absAngle = fixedAngle;
+            m_mounted = true;
+            m_mount = sim;
+            m_initMountX = sim.getConfig().getInitialX();
+            m_initMountY = sim.getConfig().getInitialY();
+            m_initMountAngle = Math.toRadians(sim.getConfig().getAngle());
+            this.m_absAngle = fixedAngle;
         }
         return this;
     }
 
     public ArmConfig setMount(ArmSim sim, boolean absAngle) {
         if (sim != null) {
-            mounted = true;
-            mount = sim;
-            initMountX = sim.getConfig().getInitialX();
-            initMountY = sim.getConfig().getInitialY();
-            initMountAngle = sim.getConfig().getStartingAngle();
-            this.absAngle = absAngle;
+            m_mounted = true;
+            m_mount = sim;
+            m_initMountX = sim.getConfig().getInitialX();
+            m_initMountY = sim.getConfig().getInitialY();
+            m_initMountAngle = sim.getConfig().getStartingAngle();
+            this.m_absAngle = absAngle;
         }
         return this;
     }

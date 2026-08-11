@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<profiles version="12">
+    <profile kind="CodeFormatterProfile" name="NoMultilineIndent" version="12">
+        <!-- Sets continuation indentation (wrapped lines) to 0 spaces/tabs -->
+        <setting id="org.eclipse.jdt.core.formatter.continuation_indentation" value="0"/>
+        
+        <!-- Optional: Ensures strict compliance for block and expression wrapping -->
+        <setting id="org.eclipse.jdt.core.formatter.continuation_indentation_for_array_initializer" value="0"/>
+        
+        <!-- Enable formatter tags for manual bypass via comments -->
+        <setting id="org.eclipse.jdt.core.formatter.use_on_off_tags" value="true"/>
+    </profile>
+</profiles>

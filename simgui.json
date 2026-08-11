@@ -30,7 +30,9 @@
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
       "/SmartDashboard/PathPlanner": "Alerts",
-      "/SmartDashboard/RightView": "Mechanism2d"
+      "/SmartDashboard/RightView": "Mechanism2d",
+      "/SmartDashboard/Test Chooser": "String Chooser",
+      "/SmartDashboard/categories": "String Chooser"
     },
     "windows": {
       "/Pose": {

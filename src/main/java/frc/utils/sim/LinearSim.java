@@ -1,6 +1,7 @@
 package frc.utils.sim;
 
 import com.ctre.phoenix6.sim.TalonFXSimState;
+
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
@@ -12,160 +13,143 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import lombok.Getter;
 
 public class LinearSim implements Mount, Mountable {
-    private ElevatorSim elevatorSim;
+    private ElevatorSim m_elevatorSim;
 
-    private final MechanismRoot2d staticRoot;
-    private final MechanismRoot2d root;
+    private final MechanismRoot2d m_staticRoot;
+    private final MechanismRoot2d m_root;
     private final MechanismLigament2d staticMech2d;
     private final MechanismLigament2d m_elevatorMech2d;
     @Getter
-    private LinearConfig config;
-    private TalonFXSimState linearMotorSim;
+    private LinearConfig m_config;
+    private TalonFXSimState m_linearMotorSim;
 
-    @Getter
-    private final MountType mountType = MountType.LINEAR;
+    private final MountType kMountType = MountType.kLinear;
 
-    public LinearSim(
-            LinearConfig config, Mechanism2d mech, TalonFXSimState linearMotorSim, String name) {
-        this.config = config;
-        this.linearMotorSim = linearMotorSim;
+    public LinearSim(LinearConfig config, Mechanism2d mech, TalonFXSimState linearMotorSim, String name) {
+        this.m_config = config;
+        this.m_linearMotorSim = linearMotorSim;
 
-        this.elevatorSim = new ElevatorSim(
-                DCMotor.getKrakenX60Foc(config.getNumMotors()),
-                config.getElevatorGearing(),
-                config.getCarriageMassKg(),
-                config.getDrumRadius(),
-                config.getMinHeight(),
-                config.getMaxHeight(),
-                true,
-                0);
+        this.m_elevatorSim = new ElevatorSim(DCMotor.getKrakenX60Foc(config.getNumMotors()),
+        config.getElevatorGearing(), config.getCarriageMassKg(), config.getDrumRadius(), config.getMinHeight(),
+        config.getMaxHeight(), true, 0);
 
-        staticRoot = mech.getRoot(name + " 1StaticRoot", config.getInitialX(), config.getInitialY());
-        staticMech2d = staticRoot.append(
-                new MechanismLigament2d(
-                        name + " 1Static",
-                        config.getStaticLength(),
-                        config.getAngle(),
-                        config.getLineWidth(),
-                        new Color8Bit(Color.kOrange)));
+        m_staticRoot = mech.getRoot(name + " 1StaticRoot", config.getInitialX(), config.getInitialY());
+        staticMech2d = m_staticRoot.append(new MechanismLigament2d(name + " 1Static", config.getStaticLength(),
+        config.getAngle(), config.getLineWidth(), new Color8Bit(Color.kOrange)));
 
-        root = mech.getRoot(name + " Root", config.getInitialX(), config.getInitialY());
-        m_elevatorMech2d = root.append(
-                new MechanismLigament2d(
-                        name,
-                        config.getMovingLength(),
-                        config.getAngle(),
-                        config.getLineWidth(),
-                        new Color8Bit(Color.kBlack)));
+        m_root = mech.getRoot(name + " Root", config.getInitialX(), config.getInitialY());
+        m_elevatorMech2d = m_root.append(new MechanismLigament2d(name, config.getMovingLength(), config.getAngle(),
+        config.getLineWidth(), new Color8Bit(Color.kBlack)));
+    }
+
+    @Override
+    public MountType getMountType() {
+        return kMountType;
     }
 
     public MechanismLigament2d getElevatorMech2d() {
         return m_elevatorMech2d;
     }
 
-    private double getRotationPerSec() {
-        return (elevatorSim.getVelocityMetersPerSecond() / (2 * Math.PI * config.getDrumRadius()))
-                * config.getElevatorGearing();
-    }
-
-    private double getRotations() {
-        return (elevatorSim.getPositionMeters() / (2 * Math.PI * config.getDrumRadius()))
-                * config.getElevatorGearing();
-    }
-
     public void simulationPeriodic() {
-        elevatorSim.setInput(linearMotorSim.getMotorVoltage());
-        elevatorSim.update(TimedRobot.kDefaultPeriod);
+        m_elevatorSim.setInput(m_linearMotorSim.getMotorVoltage());
+        m_elevatorSim.update(TimedRobot.kDefaultPeriod);
 
-        linearMotorSim.setRotorVelocity(getRotationPerSec());
-        linearMotorSim.setRawRotorPosition(getRotations());
+        m_linearMotorSim.setRotorVelocity(getRotationPerSec());
+        m_linearMotorSim.setRawRotorPosition(getRotations());
 
-        double displacement = elevatorSim.getPositionMeters();
+        double displacement = m_elevatorSim.getPositionMeters();
 
-        if (config.isMounted()) {
+        if (m_config.isMounted()) {
             double angle;
 
-            if (config.getMount().getMountType() == MountType.ARM) {
-                angle = config.getAngle() + Math.toDegrees(config.getMount().getAngle());
-            } else if (config.getMount().getMountType() == MountType.LINEAR) {
-                angle = config.getAngle()
-                        + Math.toDegrees(
-                                config.getMount().getAngle() - config.getInitMountAngle());
+            if (m_config.getMount().getMountType() == MountType.kArm) {
+                angle = m_config.getAngle() + Math.toDegrees(m_config.getMount().getAngle());
+            } else if (m_config.getMount().getMountType() == MountType.kLinear) {
+                angle = m_config.getAngle()
+                + Math.toDegrees(m_config.getMount().getAngle() - m_config.getInitMountAngle());
             } else {
-                angle = config.getAngle();
+                angle = m_config.getAngle();
             }
 
-            config.setStaticRootX(getUpdatedX(config));
-            config.setStaticRootY(getUpdatedY(config));
+            m_config.setStaticRootX(getUpdatedX(m_config));
+            m_config.setStaticRootY(getUpdatedY(m_config));
 
-            staticRoot.setPosition(config.getStaticRootX(), config.getStaticRootY());
-            root.setPosition(
-                    config.getStaticRootX() + (displacement * Math.cos(Math.toRadians(angle))),
-                    config.getStaticRootY() + (displacement * Math.sin(Math.toRadians(angle))));
+            m_staticRoot.setPosition(m_config.getStaticRootX(), m_config.getStaticRootY());
+            m_root.setPosition(m_config.getStaticRootX() + (displacement * Math.cos(Math.toRadians(angle))),
+            m_config.getStaticRootY() + (displacement * Math.sin(Math.toRadians(angle))));
 
             staticMech2d.setAngle(angle);
             m_elevatorMech2d.setAngle(angle);
 
         } else {
-            root.setPosition(
-                    config.getInitialX()
-                            + (displacement * Math.cos(Math.toRadians(config.getAngle()))),
-                    config.getInitialY()
-                            + (displacement * Math.sin(Math.toRadians(config.getAngle()))));
+            m_root.setPosition(m_config.getInitialX() + (displacement * Math.cos(Math.toRadians(m_config.getAngle()))),
+            m_config.getInitialY() + (displacement * Math.sin(Math.toRadians(m_config.getAngle()))));
         }
     }
 
+    @Override
     public double getDisplacementX() {
         double angle;
 
-        if (!config.isMounted()) {
-            angle = config.getAngle();
-        } else if (config.getMount().getMountType() == MountType.ARM) {
-            angle = config.getAngle() + Math.toDegrees(config.getMount().getAngle());
-        } else if (config.getMount().getMountType() == MountType.LINEAR) {
-            angle = config.getAngle()
-                    + Math.toDegrees(
-                            config.getMount().getAngle() - config.getInitMountAngle());
+        if (!m_config.isMounted()) {
+            angle = m_config.getAngle();
+        } else if (m_config.getMount().getMountType() == MountType.kArm) {
+            angle = m_config.getAngle() + Math.toDegrees(m_config.getMount().getAngle());
+        } else if (m_config.getMount().getMountType() == MountType.kLinear) {
+            angle = m_config.getAngle() + Math.toDegrees(m_config.getMount().getAngle() - m_config.getInitMountAngle());
         } else {
-            angle = config.getAngle();
+            angle = m_config.getAngle();
         }
 
-        return elevatorSim.getPositionMeters() * Math.cos(Math.toRadians(angle))
-                + (config.getStaticRootX() - config.getInitialX());
+        return m_elevatorSim.getPositionMeters() * Math.cos(Math.toRadians(angle))
+        + (m_config.getStaticRootX() - m_config.getInitialX());
     }
 
+    @Override
     public double getDisplacementY() {
         double angle;
 
-        if (!config.isMounted()) {
-            angle = config.getAngle();
-        } else if (config.getMount().getMountType() == MountType.ARM) {
-            angle = config.getAngle() + Math.toDegrees(config.getMount().getAngle());
-        } else if (config.getMount().getMountType() == MountType.LINEAR) {
-            angle = config.getAngle()
-                    + Math.toDegrees(
-                            config.getMount().getAngle() - config.getInitMountAngle());
+        if (!m_config.isMounted()) {
+            angle = m_config.getAngle();
+        } else if (m_config.getMount().getMountType() == MountType.kArm) {
+            angle = m_config.getAngle() + Math.toDegrees(m_config.getMount().getAngle());
+        } else if (m_config.getMount().getMountType() == MountType.kLinear) {
+            angle = m_config.getAngle() + Math.toDegrees(m_config.getMount().getAngle() - m_config.getInitMountAngle());
         } else {
-            angle = config.getAngle();
+            angle = m_config.getAngle();
         }
 
-        return elevatorSim.getPositionMeters() * Math.sin(Math.toRadians(angle))
-                + (config.getStaticRootY() - config.getInitialY());
+        return m_elevatorSim.getPositionMeters() * Math.sin(Math.toRadians(angle))
+        + (m_config.getStaticRootY() - m_config.getInitialY());
     }
 
+    @Override
     public double getAngle() {
-        if (config.isMounted()) {
-            return config.getMount().getAngle() + Math.toRadians(config.getAngle());
+        if (m_config.isMounted()) {
+            return m_config.getMount().getAngle() + Math.toRadians(m_config.getAngle());
         } else {
-            return Math.toRadians(config.getAngle());
+            return Math.toRadians(m_config.getAngle());
         }
     }
 
+    @Override
     public double getMountX() {
-        return config.getStaticRootX();
+        return m_config.getStaticRootX();
     }
 
+    @Override
     public double getMountY() {
-        return config.getStaticRootY();
+        return m_config.getStaticRootY();
+    }
+
+    private double getRotationPerSec() {
+        return (m_elevatorSim.getVelocityMetersPerSecond() / (2 * Math.PI * m_config.getDrumRadius()))
+        * m_config.getElevatorGearing();
+    }
+
+    private double getRotations() {
+        return (m_elevatorSim.getPositionMeters() / (2 * Math.PI * m_config.getDrumRadius()))
+        * m_config.getElevatorGearing();
     }
 }

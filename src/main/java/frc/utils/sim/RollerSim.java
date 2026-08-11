@@ -1,6 +1,7 @@
 package frc.utils.sim;
 
 import com.ctre.phoenix6.sim.TalonFXSimState;
+
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -24,31 +25,20 @@ public class RollerSim implements Mountable {
     private RollerConfig config;
     private Circle roller;
 
-    public RollerSim(
-            RollerConfig config, Mechanism2d mech, TalonFXSimState rollerMotorSim, String name) {
+    public RollerSim(RollerConfig config, Mechanism2d mech, TalonFXSimState rollerMotorSim, String name) {
         this.config = config;
         this.rollerMotorSim = rollerMotorSim;
         DCMotor kraken = DCMotor.getKrakenX60Foc(1);
-        LinearSystem<N1, N1, N1> flyWheelSystem = LinearSystemId.createFlywheelSystem(
-                kraken, config.getSimMOI(), config.getGearRatio());
+        LinearSystem<N1, N1, N1> flyWheelSystem = LinearSystemId.createFlywheelSystem(kraken, config.getSimMOI(),
+        config.getGearRatio());
         rollerSim = new FlywheelSim(flyWheelSystem, kraken);
 
         rollerAxle = mech.getRoot(name + " Axle", 0.0, 0.0);
 
-        rollerViz = rollerAxle.append(
-                new MechanismLigament2d(
-                        name + " Roller",
-                        Units.inchesToMeters(config.getRollerDiameterInches()) / 2.0,
-                        0.0,
-                        5.0,
-                        new Color8Bit(Color.kWhite)));
+        rollerViz = rollerAxle.append(new MechanismLigament2d(name + " Roller",
+        Units.inchesToMeters(config.getRollerDiameterInches()) / 2.0, 0.0, 5.0, new Color8Bit(Color.kWhite)));
 
-        roller = new Circle(
-                config.getBackgroundLines(),
-                config.getRollerDiameterInches(),
-                name,
-                rollerAxle,
-                mech);
+        roller = new Circle(config.getBackgroundLines(), config.getRollerDiameterInches(), name, rollerAxle, mech);
     }
 
     public void simulationPeriodic() { // double x, double y) {
@@ -57,8 +47,10 @@ public class RollerSim implements Mountable {
         rollerSim.update(TimedRobot.kDefaultPeriod);
 
         // ------ Update motor based on sim
-        // Make sure to convert radians at the mechanism to rotations at the motor
-        // Subtracting out the starting angle is necessary so the simulation can't
+        // Make sure to convert radians at the mechanism to rotations at the
+        // motor
+        // Subtracting out the starting angle is necessary so the simulation
+        // can't
         // "cheat" and use
         // the
         // sim as an absolute encoder.

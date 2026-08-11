@@ -3,8 +3,7 @@ package frc.utils.sim;
 public interface Mount {
 
     public enum MountType {
-        LINEAR,
-        ARM,
+        kLinear, kArm,
     }
 
     MountType getMountType();

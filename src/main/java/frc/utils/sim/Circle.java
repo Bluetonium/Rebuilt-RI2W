@@ -11,80 +11,60 @@ import lombok.Setter;
 
 public class Circle {
 
-    private MechanismRoot2d rollerAxle;
+    private MechanismRoot2d m_rollerAxle;
     @SuppressWarnings("unused")
-    private MechanismLigament2d rollerViz;
+    private MechanismLigament2d m_rollerViz;
     @Getter
-    private MechanismLigament2d[] circleBackground;
+    private MechanismLigament2d[] m_circleBackground;
     @Getter
-    private int backgroundLines;
-    private double diameterInches;
-    private MechanismRoot2d root;
+    private int m_backgroundLines;
+    private double m_diameterInches;
+    private MechanismRoot2d m_root;
     @Setter
-    private Color8Bit color = new Color8Bit(Color.kBlack);
+    private Color8Bit m_color = new Color8Bit(Color.kBlack);
     @Setter
-    private String name;
+    private String m_name;
 
-    public Circle(
-            int backgroundLines,
-            double diameterInches,
-            String name,
-            MechanismRoot2d root,
-            Mechanism2d mech) {
-        this.backgroundLines = backgroundLines;
-        this.diameterInches = diameterInches;
-        this.name = name;
-        this.root = root;
-        this.circleBackground = new MechanismLigament2d[this.backgroundLines];
-        this.rollerAxle = mech.getRoot(name + " Axle", 0.0, 0.0);
+    public Circle(int backgroundLines, double diameterInches, String name, MechanismRoot2d root, Mechanism2d mech) {
+        this.m_backgroundLines = backgroundLines;
+        this.m_diameterInches = diameterInches;
+        this.m_name = name;
+        this.m_root = root;
+        this.m_circleBackground = new MechanismLigament2d[this.m_backgroundLines];
+        this.m_rollerAxle = mech.getRoot(name + " Axle", 0.0, 0.0);
         drawCircle();
     }
 
-    public Circle(
-            Mechanism2d mech,
-            int backgroundLines,
-            double diameterInches,
-            String name,
-            MechanismRoot2d root,
-            Color8Bit color) {
+    public Circle(Mechanism2d mech, int backgroundLines, double diameterInches, String name, MechanismRoot2d root,
+    Color8Bit color) {
         this(backgroundLines, diameterInches, name, root, mech);
-        this.color = color;
+        this.m_color = color;
     }
 
     public void drawCircle() {
-        for (int i = 0; i < backgroundLines; i++) {
-            circleBackground[i] = root.append(
-                    new MechanismLigament2d(
-                            name + " Background " + i,
-                            Units.inchesToMeters(diameterInches) / 2.0,
-                            (360 / backgroundLines) * i,
-                            diameterInches,
-                            color));
+        for (int i = 0; i < m_backgroundLines; i++) {
+            m_circleBackground[i] = m_root.append(new MechanismLigament2d(m_name + " Background " + i,
+            Units.inchesToMeters(m_diameterInches) / 2.0, (360 / m_backgroundLines) * i, m_diameterInches, m_color));
         }
     }
 
     public void drawViz() {
-        rollerViz = rollerAxle.append(
-                new MechanismLigament2d(
-                        name + " Roller",
-                        Units.inchesToMeters(diameterInches) / 2.0,
-                        0.0,
-                        5.0,
-                        new Color8Bit(Color.kWhite)));
+        m_rollerViz = m_rollerAxle.append(new MechanismLigament2d(m_name + " Roller",
+        Units.inchesToMeters(m_diameterInches) / 2.0, 0.0, 5.0, new Color8Bit(Color.kWhite)));
     }
 
     public void setBackgroundColor(Color8Bit color) {
-        for (int i = 0; i < backgroundLines; i++) {
-            circleBackground[i].setColor(color);
+        for (int i = 0; i < m_backgroundLines; i++) {
+            m_circleBackground[i].setColor(color);
         }
     }
 
     public void setHalfBackground(Color8Bit color8Bit, Color8Bit color8Bit2) {
-        for (int i = 0; i < backgroundLines; i++) {
+        for (int i = 0; i < m_backgroundLines; i++) {
             if (i % 2 == 0) {
-                circleBackground[i].setColor(color8Bit);
+                m_circleBackground[i].setColor(color8Bit);
             } else {
-                circleBackground[i].setColor(color8Bit2);
+                m_circleBackground[i].setColor(color8Bit2);
             }
         }
     }

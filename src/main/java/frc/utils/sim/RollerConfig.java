@@ -6,61 +6,61 @@ import lombok.Getter;
 
 public class RollerConfig {
     @Getter
-    private double rollerDiameterInches = 2;
+    private double m_rollerDiameterInches = 2;
     @Getter
-    private int backgroundLines = 36;
+    private int m_backgroundLines = 36;
     @Getter
-    private double gearRatio = 5;
+    private double m_gearRatio = 5;
     @Getter
-    private double simMOI = 0.01;
+    private double m_simMOI = 0.01;
     @Getter
-    private Color8Bit offColor = new Color8Bit(Color.kBlack);
+    private Color8Bit m_offColor = new Color8Bit(Color.kBlack);
     @Getter
-    private Color8Bit fwdColor = new Color8Bit(Color.kGreen);
+    private Color8Bit m_fwdColor = new Color8Bit(Color.kGreen);
     @Getter
-    private Color8Bit revColor = new Color8Bit(Color.kRed);
+    private Color8Bit m_revColor = new Color8Bit(Color.kRed);
     @Getter
-    private double initialX = 0;
+    private double m_initialX = 0;
     @Getter
-    private double initialY = 0;
+    private double m_initialY = 0;
     @Getter
-    private boolean mounted = false;
+    private boolean m_mounted = false;
     @Getter
-    private Mount mount;
+    private Mount m_mount;
     @Getter
-    private double initMountX;
+    private double m_initMountX;
     @Getter
-    private double initMountY;
+    private double m_initMountY;
     @Getter
-    private double initMountAngle;
+    private double m_initMountAngle;
 
     public RollerConfig(double diameterInches) {
-        rollerDiameterInches = diameterInches;
+        m_rollerDiameterInches = diameterInches;
     }
 
-    public RollerConfig setGearRatio(double ratio) {
-        gearRatio = ratio;
+    public RollerConfig setM_gearRatio(double ratio) {
+        m_gearRatio = ratio;
         return this;
     }
 
-    public RollerConfig setSimMOI(double moi) {
-        simMOI = moi;
+    public RollerConfig setM_simMOI(double moi) {
+        m_simMOI = moi;
         return this;
     }
 
     public RollerConfig setPosition(double x, double y) {
-        initialX = x;
-        initialY = y;
+        m_initialX = x;
+        m_initialY = y;
         return this;
     }
 
     public RollerConfig setMount(LinearSim sim) {
         if (sim != null) {
-            mounted = true;
-            mount = sim;
-            initMountX = sim.getConfig().getInitialX();
-            initMountY = sim.getConfig().getInitialY();
-            initMountAngle = Math.toRadians(sim.getConfig().getAngle());
+            m_mounted = true;
+            m_mount = sim;
+            m_initMountX = sim.getConfig().getInitialX();
+            m_initMountY = sim.getConfig().getInitialY();
+            m_initMountAngle = Math.toRadians(sim.getConfig().getAngle());
         }
 
         return this;
@@ -68,11 +68,11 @@ public class RollerConfig {
 
     public RollerConfig setMount(ArmSim sim) {
         if (sim != null) {
-            mounted = true;
-            mount = sim;
-            initMountX = sim.getConfig().getInitialX();
-            initMountY = sim.getConfig().getInitialY();
-            initMountAngle = sim.getConfig().getStartingAngle();
+            m_mounted = true;
+            m_mount = sim;
+            m_initMountX = sim.getConfig().getInitialX();
+            m_initMountY = sim.getConfig().getInitialY();
+            m_initMountAngle = sim.getConfig().getStartingAngle();
         }
 
         return this;
