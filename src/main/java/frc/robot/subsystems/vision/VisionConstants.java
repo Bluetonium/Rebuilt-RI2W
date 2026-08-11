@@ -7,6 +7,7 @@ public class VisionConstants {
      */
     public enum LIMELIGHTS {
         // EXAMPLE("example", 1, 1, 1, 0, 0, 0);
+        kFront("limelight-back", -0.266, -0.329, 0.155, 0, 180, 0);
         ;
 
         public final String m_name;
