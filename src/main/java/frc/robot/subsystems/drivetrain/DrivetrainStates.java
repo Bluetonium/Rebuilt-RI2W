@@ -16,10 +16,11 @@ public class DrivetrainStates {
                 CommandSwerveDrivetrain swerve = RobotContainer.getDrivetrain();
 
                 RobotStates.m_wheelXPosition
-                .whileTrue(swerve.applyRequest(() -> m_brake).withName("Chassis.WheelXPosition"));
+                                .whileTrue(swerve.applyRequest(() -> m_brake).withName("Chassis.WheelXPosition"));
                 RobotStates.m_disabled.whileTrue(swerve.applyRequest(() -> m_idle).withName("Chassis.Idle"));
                 RobotStates.m_zeroHeading
-                .onTrue(swerve.runOnce(() -> swerve.seedFieldCentric()).withName("Chassis.ZeroHeading"));
+                                .onTrue(swerve.runOnce(() -> swerve.seedFieldCentric())
+                                                .withName("Chassis.ZeroHeading"));
 
                 RobotStates.m_pointWheel.whileTrue(swerve.pointWheels());
 
