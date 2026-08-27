@@ -31,23 +31,23 @@ public class Controller {
 
   public Controller withControl(CONTROLLABLE_SYSTEMS control) {
     switch (control) {
-    case kChassis:
-      m_chassisControlTranslation = this::translate;
+      case kChassis:
+        m_chassisControlTranslation = this::translate;
 
-      m_chassisControlStrafe = () -> m_controller.getRawAxis(ControllerConstants.ChassisControls.kStrafe);
-      m_chassisControlRotation = () -> m_controller.getRawAxis(ControllerConstants.ChassisControls.kRotation);
+        m_chassisControlStrafe = () -> m_controller.getRawAxis(ControllerConstants.ChassisControls.kStrafe);
+        m_chassisControlRotation = () -> m_controller.getRawAxis(ControllerConstants.ChassisControls.kRotation);
 
-      m_wheelsXPosition = m_controller.button(ControllerConstants.ChassisControls.kWheelXPosition);
-      m_pointWheels = m_controller.button(ControllerConstants.ChassisControls.kPointWheels);
-      m_zeroHeading = m_controller.button(ControllerConstants.ChassisControls.kZeroHeading);
-      break;
+        m_wheelsXPosition = m_controller.button(ControllerConstants.ChassisControls.kWheelXPosition);
+        m_pointWheels = m_controller.button(ControllerConstants.ChassisControls.kPointWheels);
+        m_zeroHeading = m_controller.button(ControllerConstants.ChassisControls.kZeroHeading);
+        break;
 
-    case kTests:
-      m_runTest = m_controller.button(ControllerConstants.TestControls.kRunTest);
-      break;
+      case kTests:
+        m_runTest = m_controller.button(ControllerConstants.TestControls.kRunTest);
+        break;
 
-    default:
-      throw new RuntimeException("No setup configured for control " + control.name());
+      default:
+        throw new RuntimeException("No setup configured for control " + control.name());
     }
 
     return this;

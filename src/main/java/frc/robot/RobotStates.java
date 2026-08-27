@@ -23,6 +23,12 @@ public class RobotStates {
   public static Trigger m_slowMode;
   public static Trigger m_pointWheel;
 
+  // pid value getting states
+  public static Trigger sysDyn;
+  public static Trigger sysSta;
+  public static Trigger sysDynRev;
+  public static Trigger sysStaRev;
+
   public static void setupStates() {
     m_teleop = new Trigger(DriverStation::isTeleopEnabled);
     m_autoMode = new Trigger(RobotState::isAutonomous);
@@ -39,6 +45,11 @@ public class RobotStates {
     m_zeroHeading = Controller.m_zeroHeading;
     m_pointWheel = Controller.m_pointWheels;
 
+    // PID TUNING
+    // TODO Figure out how the controller sublcass works
+    // I don't know how to access x button Trigger from controller object as opposed
+    // to XboxCommandController
+    // sysDyn = new Trigger(RobotContainer.m_testingController.x());
   }
 
   public static boolean isRed() {
@@ -51,5 +62,6 @@ public class RobotStates {
   }
 
   private RobotStates() {
+    setupStates();
   } // hide constructor
 }
