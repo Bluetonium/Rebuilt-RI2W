@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 // I have sorted the constants file by motor type, organized into subclasses
@@ -25,8 +27,8 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class ShooterConstants {
 
-    // TODO set CAN ID's to the correct values
-    // TODO PID TUNING (these values are completely random from last year)
+    // TODO set CAN ID's to the correct values (URGENT) KD
+    // TODO PID TUNING (these values are completely random from last year) KD
     class SHOOTER_MOTOR {
         public static final int ID = 1;
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
@@ -34,7 +36,13 @@ public class ShooterConstants {
         public static final double ACCELERATION = 90;
         public static final double VELOCITY_FORWARD = 90;
         public static final double VELOCITY_BACKWARD = 90;
+
+        public static final InvertedValue INVERTED_VALUE = InvertedValue.Clockwise_Positive;
         public static final double GEAR_RATIO = 1;
+
+        public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()
+                .withStatorCurrentLimit(50)
+                .withSupplyCurrentLimit(30);
 
         public static final double kP = 0.030071;
         public static final double kI = 0;
@@ -52,7 +60,13 @@ public class ShooterConstants {
         public static final double ACCELERATION = 90;
         public static final double VELOCITY_FORWARD = 90;
         public static final double VELOCITY_BACKWARD = 90;
+
+        public static final InvertedValue INVERTED_VALUE = InvertedValue.Clockwise_Positive;
         public static final double GEAR_RATIO = 1;
+
+        public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()
+                .withStatorCurrentLimit(50)
+                .withSupplyCurrentLimit(30);
 
         public static final double kP = 0.030071;
         public static final double kI = 0;
@@ -69,7 +83,13 @@ public class ShooterConstants {
         public static final double ACCELERATION = 90;
         public static final double VELOCITY_FORWARD = 90;
         public static final double VELOCITY_BACKWARD = 90;
+
+        public static final InvertedValue INVERTED_VALUE = InvertedValue.Clockwise_Positive;
         public static final double GEAR_RATIO = 1;
+
+        public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()
+                .withStatorCurrentLimit(50)
+                .withSupplyCurrentLimit(30);
 
         public static final double kP = 0.030071;
         public static final double kI = 0;
@@ -87,7 +107,13 @@ public class ShooterConstants {
         public static final double ACCELERATION = 90;
         public static final double VELOCITY_FORWARD = 90;
         public static final double VELOCITY_BACKWARD = 90;
+
+        public static final InvertedValue INVERTED_VALUE = InvertedValue.Clockwise_Positive;
         public static final double GEAR_RATIO = 1;
+
+        public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()
+                .withStatorCurrentLimit(50)
+                .withSupplyCurrentLimit(30);
 
         public static final double kP = 0.030071;
         public static final double kI = 0;
