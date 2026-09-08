@@ -43,7 +43,8 @@ public class Shooter extends SubsystemBase {
         private MotionMagicVelocityVoltage m_indexerMotorVelocityVoltage = new MotionMagicVelocityVoltage(0)
                         .withAcceleration(ShooterConstants.INDEXER_MOTOR.ACCELERATION);
 
-        // TODO Do we really need one of these for each motor? That seems like a lot
+        // TODO Do we really need one of these for each motor? That seems like a lot -
+        // genuine question, KD
         // that we didn't have last year right? - KD
         private final SysIdRoutine m_shooterMotor_SysIdRoutine = new SysIdRoutine(
                         new SysIdRoutine.Config(
@@ -100,6 +101,7 @@ public class Shooter extends SubsystemBase {
 
                 m_shooterMotorConfig = new TalonFXConfiguration();
                 // TODO fix these two lines need to be accurate, and add them for 3 other motors
+                // (shouldn't be urgent) KD
                 m_shooterMotorConfig.MotorOutput.Inverted = ShooterConstants.SHOOTER_MOTOR.INVERTED_VALUE;
                 m_shooterMotorConfig.CurrentLimits = ShooterConstants.SHOOTER_MOTOR.CURRENT_LIMITS;
 
@@ -165,7 +167,7 @@ public class Shooter extends SubsystemBase {
                         m_shooterMotorFollower.setControl(m_shooterMotorFollowerVelocityVoltage.withVelocity(0));
                         m_shooterMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
                         m_shooterMotor.setControl(m_indexerMotorVelocityVoltage.withVelocity(0));
-                }).withName("Shooter Stopped"));
+                }).withName("Shooter Subsystem Stopped"));
 
                 ShooterStates.setupStates();
         }

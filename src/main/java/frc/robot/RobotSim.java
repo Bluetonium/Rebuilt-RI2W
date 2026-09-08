@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 
 public class RobotSim {
-    // TODO setup the dimensions here
+    // TODO setup the dimensions here (not urgent) KD
     public static final double m_height = 1.2;
     public static final double m_width = 0.6;
 
