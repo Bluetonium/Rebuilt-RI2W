@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class ControllerConstants {
   public static enum CONTROLLABLE_SYSTEMS {
-    kChassis, kTests
+    kChassis, kArm, kTests
   }
 
   public static class ChassisControls {

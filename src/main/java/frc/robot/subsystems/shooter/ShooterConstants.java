@@ -27,10 +27,9 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class ShooterConstants {
 
-    // TODO set CAN ID's to the correct values (URGENT) KD
-    // TODO PID TUNING (these values are completely random from last year) KD
+    // TODO PID TUNING
     class SHOOTER_MOTOR {
-        public static final int ID = 1;
+        public static final int ID = -1; // TODO ID value
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
 
         public static final double ACCELERATION = 90;
@@ -54,7 +53,7 @@ public class ShooterConstants {
     }
 
     class SHOOTER_MOTOR_FOLLOWER {
-        public static final int ID = 2;
+        public static final int ID = -2; // TODO id values
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
 
         public static final double ACCELERATION = 90;
@@ -78,7 +77,7 @@ public class ShooterConstants {
     }
 
     class FEEDER_MOTOR {
-        public static final int ID = 3;
+        public static final int ID = -3; // TODO id values
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
         public static final double ACCELERATION = 90;
         public static final double VELOCITY_FORWARD = 90;
@@ -101,7 +100,7 @@ public class ShooterConstants {
     }
 
     class INDEXER_MOTOR {
-        public static final int ID = 4;
+        public static final int ID = -4; // TODO id values
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
 
         public static final double ACCELERATION = 90;

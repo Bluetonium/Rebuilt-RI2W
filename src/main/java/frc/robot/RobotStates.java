@@ -45,12 +45,6 @@ public class RobotStates {
     m_zeroHeading = Controller.m_zeroHeading;
     m_pointWheel = Controller.m_pointWheels;
 
-    // PID TUNING
-    // TODO Figure out how the controller sublcass works (IMPORTANT IDK HOW THIS
-    // WORKS DEVIN, HENRY MADE IT WEIRD AND DIFFERENT) KD
-    // I don't know how to access x button Trigger from controller object as opposed
-    // to XboxCommandController
-    // sysDyn = new Trigger(RobotContainer.m_testingController.x());
   }
 
   public static boolean isRed() {

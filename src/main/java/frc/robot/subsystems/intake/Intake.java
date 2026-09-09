@@ -11,9 +11,9 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.subsystems.SubsystemTesting;
 
 public class Intake extends SubsystemBase {
 
@@ -69,6 +69,8 @@ public class Intake extends SubsystemBase {
         slot0_intake.kV = IntakeConstants.INTAKE_MOTOR.kV;
         slot0_intake.kA = IntakeConstants.INTAKE_MOTOR.kA;
 
+        SubsystemTesting.registerSysIdTests(m_intakeMotor_SysIdRoutine, "Intake Motor");
+
         // ------------------------Intake Extender------------------------------
         m_intakeExtendMotor = new TalonFX(IntakeConstants.INTAKE_EXTEND_MOTOR.ID);
         m_intakeExtendMotor.setNeutralMode(IntakeConstants.INTAKE_EXTEND_MOTOR.NEUTRAL_MODE);
@@ -84,7 +86,10 @@ public class Intake extends SubsystemBase {
         slot0_intakeExtend.kV = IntakeConstants.INTAKE_EXTEND_MOTOR.kV;
         slot0_intakeExtend.kA = IntakeConstants.INTAKE_EXTEND_MOTOR.kA;
 
+        SubsystemTesting.registerSysIdTests(m_intakeExtendMotor_SysIdRoutine, "Intake Extender Motor");
+
         applyConfig();
+
     }
 
     public void setup() {
@@ -106,22 +111,5 @@ public class Intake extends SubsystemBase {
         if (!intakeExtend_status.isOK())
             DriverStation.reportWarning(intakeExtend_status.getName() + "Failed to apply configs to intake extender"
                     + intakeExtend_status.getDescription(), false);
-    }
-
-    // PID Commands
-    public Command m_intakeMotor_SysIdQuasistatic(SysIdRoutine.Direction direction) {
-        return m_intakeMotor_SysIdRoutine.quasistatic(direction);
-    }
-
-    public Command m_intakeMotor_SysIdDynamic(SysIdRoutine.Direction direction) {
-        return m_intakeMotor_SysIdRoutine.dynamic(direction);
-    }
-
-    public Command m_intakeExtendMotor_SysIdQuasistatic(SysIdRoutine.Direction direction) {
-        return m_intakeExtendMotor_SysIdRoutine.quasistatic(direction);
-    }
-
-    public Command m_intakeExtendMotor_SysIdDynamic(SysIdRoutine.Direction direction) {
-        return m_intakeExtendMotor_SysIdRoutine.dynamic(direction);
     }
 }

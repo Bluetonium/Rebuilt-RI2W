@@ -7,7 +7,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 public class IntakeConstants {
 
     class INTAKE_MOTOR {
-        public static final int ID = 1;
+        public static final int ID = -1; // TODO Set ID values for all intake motors
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
 
         public static final double ACCELERATION = 90;
@@ -31,7 +31,7 @@ public class IntakeConstants {
     }
 
     class INTAKE_EXTEND_MOTOR {
-        public static final int ID = 1;
+        public static final int ID = -1; // TODO set ID value
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
 
         public static final double ACCELERATION = 90;
