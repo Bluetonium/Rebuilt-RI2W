@@ -11,6 +11,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.SubsystemTesting;
@@ -178,6 +179,18 @@ public class Shooter extends SubsystemBase {
                 }).withName("Shooter Subsystem Stopped"));
 
                 ShooterStates.setupStates();
+        }
+
+        public Command runShooter() {
+                return run(() -> {
+                        m_shooterMotor.setControl(m_shooterMotorVelocityVoltage
+                                        .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_FORWARD));
+                        m_shooterMotorFollower.setControl(m_shooterMotorFollowerVelocityVoltage
+                                        .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_BACKWARD));
+                }).finallyDo(() -> {
+                        m_shooterMotor.setControl(m_shooterMotorVelocityVoltage.withVelocity(0));
+                        m_shooterMotorFollower.setControl(m_shooterMotorFollowerVelocityVoltage.withVelocity(0));
+                }).withName("ShooterForward");
         }
 
         private void applyConfig() {

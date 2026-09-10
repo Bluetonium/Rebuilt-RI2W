@@ -22,6 +22,8 @@ public class Controller {
   // Tests
   public static Trigger m_runTest = null;
 
+  public static Trigger m_runShooter = null;
+
   // Instance variables
   private final CommandXboxController m_controller;
 
@@ -40,10 +42,13 @@ public class Controller {
         m_wheelsXPosition = m_controller.button(ControllerConstants.ChassisControls.kWheelXPosition);
         m_pointWheels = m_controller.button(ControllerConstants.ChassisControls.kPointWheels);
         m_zeroHeading = m_controller.button(ControllerConstants.ChassisControls.kZeroHeading);
+        m_runShooter = m_controller.button(ControllerConstants.ChassisControls.trigger);
+
         break;
 
       case kTests:
         m_runTest = m_controller.button(ControllerConstants.TestControls.kRunTest);
+
         break;
 
       default:

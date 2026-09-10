@@ -16,6 +16,7 @@ public class ControllerConstants {
 
     public static int kPointWheels = XboxController.Button.kA.value;
     public static int kZeroHeading = XboxController.Button.kB.value;
+    public static int trigger = XboxController.Button.kRightBumper.value;
 
     public static double kTranslationDeadband = 0.1; // 10% deadband
     public static double kRotationDeadband = 0.1; // 10% deadband
