@@ -16,12 +16,6 @@ public class RobotStates {
   public static Trigger m_endGame;
   public static Trigger m_Estopped;
   public static Trigger m_isRed;
-  // chassis
-  public static Trigger m_wheelXPosition;
-  public static Trigger m_zeroHeading;
-
-  public static Trigger m_slowMode;
-  public static Trigger m_pointWheel;
 
   // pid value getting states
   public static Trigger sysDyn;
@@ -29,7 +23,16 @@ public class RobotStates {
   public static Trigger sysDynRev;
   public static Trigger sysStaRev;
 
+  // chassis states
+  public static Trigger m_wheelXPosition;
+  public static Trigger m_zeroHeading;
+
+  public static Trigger m_slowMode;
+  public static Trigger m_pointWheel;
+
+  // arm states
   public static Trigger runShooter;
+  public static Trigger runIntake;
 
   public static void setupStates() {
     m_teleop = new Trigger(DriverStation::isTeleopEnabled);
@@ -42,12 +45,14 @@ public class RobotStates {
 
     m_endGame = m_teleop.and(() -> DriverStation.getMatchTime() < 20);
 
-    runShooter = new Trigger(Controller.m_runShooter);
-
     // chassis
     m_wheelXPosition = Controller.m_wheelsXPosition;
     m_zeroHeading = Controller.m_zeroHeading;
     m_pointWheel = Controller.m_pointWheels;
+
+    // arm
+    runShooter = Controller.m_runShooter;
+    runIntake = Controller.m_runIntake;
 
   }
 

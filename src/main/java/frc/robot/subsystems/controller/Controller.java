@@ -19,10 +19,13 @@ public class Controller {
   public static Trigger m_pointWheels = null;
   public static Trigger m_zeroHeading = null;
 
+  // Arm
+  public static Trigger m_runShooter = null;
+  public static Trigger m_runIntake = null;
+  public static Trigger m_openIntake = null;
+
   // Tests
   public static Trigger m_runTest = null;
-
-  public static Trigger m_runShooter = null;
 
   // Instance variables
   private final CommandXboxController m_controller;
@@ -42,7 +45,12 @@ public class Controller {
         m_wheelsXPosition = m_controller.button(ControllerConstants.ChassisControls.kWheelXPosition);
         m_pointWheels = m_controller.button(ControllerConstants.ChassisControls.kPointWheels);
         m_zeroHeading = m_controller.button(ControllerConstants.ChassisControls.kZeroHeading);
-        m_runShooter = m_controller.button(ControllerConstants.ChassisControls.trigger);
+
+        break;
+
+      case kArm:
+        m_runShooter = m_controller.rightTrigger(ControllerConstants.ArmControls.kShooterThreshold);
+        m_runIntake = m_controller.leftTrigger(ControllerConstants.ArmControls.kIntakeThreshold);
 
         break;
 

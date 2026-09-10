@@ -7,14 +7,16 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 public class IntakeConstants {
 
     class INTAKE_MOTOR {
-        public static final int ID = 0; // TODO Implement second motor for this one operatin (2 motors for intake)
+        public static final int ID = 0;
+        public static final int FOLLOWER_ID = 1;
+
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
 
         public static final double ACCELERATION = 90;
         public static final double VELOCITY_FORWARD = 90;
         public static final double VELOCITY_BACKWARD = 90;
 
-        public static final InvertedValue INVERTED_VALUE = InvertedValue.Clockwise_Positive;
+        public static final InvertedValue INVERTED_VALUE = InvertedValue.CounterClockwise_Positive;
         public static final double GEAR_RATIO = 1;
 
         public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()

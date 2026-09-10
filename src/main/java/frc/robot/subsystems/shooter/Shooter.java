@@ -6,9 +6,11 @@ import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,7 +25,6 @@ public class Shooter extends SubsystemBase {
         private TalonFX m_indexerMotor;
 
         private final VoltageOut m_shooterMotor_SysIdControl = new VoltageOut(0);
-        private final VoltageOut m_shooterMotorFollower_SysIdControl = new VoltageOut(0);
         private final VoltageOut m_feederMotor_SysIdControl = new VoltageOut(0);
         private final VoltageOut m_indexerMotor_SysIdControl = new VoltageOut(0);
 
@@ -35,18 +36,12 @@ public class Shooter extends SubsystemBase {
         private MotionMagicVelocityVoltage m_shooterMotorVelocityVoltage = new MotionMagicVelocityVoltage(0)
                         .withAcceleration(ShooterConstants.SHOOTER_MOTOR.ACCELERATION);
 
-        private MotionMagicVelocityVoltage m_shooterMotorFollowerVelocityVoltage = new MotionMagicVelocityVoltage(0)
-                        .withAcceleration(ShooterConstants.SHOOTER_MOTOR_FOLLOWER.ACCELERATION);
-
         private MotionMagicVelocityVoltage m_feederMotorVelocityVoltage = new MotionMagicVelocityVoltage(0)
                         .withAcceleration(ShooterConstants.FEEDER_MOTOR.ACCELERATION);
 
         private MotionMagicVelocityVoltage m_indexerMotorVelocityVoltage = new MotionMagicVelocityVoltage(0)
                         .withAcceleration(ShooterConstants.INDEXER_MOTOR.ACCELERATION);
 
-        // TODO Do we really need one of these for each motor? That seems like a lot -
-        // genuine question, KD
-        // that we didn't have last year right? - KD
         private final SysIdRoutine m_shooterMotor_SysIdRoutine = new SysIdRoutine(
                         new SysIdRoutine.Config(
                                         null,
@@ -56,19 +51,6 @@ public class Shooter extends SubsystemBase {
                         new SysIdRoutine.Mechanism(
                                         (volts) -> m_shooterMotor.setControl(
                                                         m_shooterMotor_SysIdControl.withOutput(volts.in(Volts))),
-                                        null,
-                                        this));
-
-        private final SysIdRoutine m_shooterMotorFollower_SysIdRoutine = new SysIdRoutine(
-                        new SysIdRoutine.Config(
-                                        null,
-                                        Volts.of(4),
-                                        null,
-                                        (state) -> SignalLogger.writeString("SysIdShooterFollower", state.toString())),
-                        new SysIdRoutine.Mechanism(
-                                        (volts) -> m_shooterMotorFollower
-                                                        .setControl(m_shooterMotorFollower_SysIdControl
-                                                                        .withOutput(volts.in(Volts))),
                                         null,
                                         this));
 
@@ -97,12 +79,12 @@ public class Shooter extends SubsystemBase {
                                         this));
 
         public Shooter() {
+
+                // main shooter
                 m_shooterMotor = new TalonFX(ShooterConstants.SHOOTER_MOTOR.ID);
                 m_shooterMotor.setNeutralMode(ShooterConstants.SHOOTER_MOTOR.NEUTRAL_MODE);
 
                 m_shooterMotorConfig = new TalonFXConfiguration();
-                // TODO fix these two lines need to be accurate, and add them for 3 other motors
-                // (shouldn't be urgent) KD
                 m_shooterMotorConfig.MotorOutput.Inverted = ShooterConstants.SHOOTER_MOTOR.INVERTED_VALUE;
                 m_shooterMotorConfig.CurrentLimits = ShooterConstants.SHOOTER_MOTOR.CURRENT_LIMITS;
 
@@ -115,23 +97,16 @@ public class Shooter extends SubsystemBase {
                 slot0_shooter.kA = ShooterConstants.SHOOTER_MOTOR.kA;
 
                 SubsystemTesting.registerSysIdTests(m_shooterMotor_SysIdRoutine, "Shooter Motor");
-
-                m_shooterMotorFollower = new TalonFX(ShooterConstants.SHOOTER_MOTOR_FOLLOWER.ID);
-                m_shooterMotorFollower.setNeutralMode(ShooterConstants.SHOOTER_MOTOR_FOLLOWER.NEUTRAL_MODE);
+                // shooter follower
+                m_shooterMotorFollower = new TalonFX(ShooterConstants.SHOOTER_MOTOR.FOLLOWER_ID);
+                m_shooterMotorFollower.setNeutralMode(ShooterConstants.SHOOTER_MOTOR.NEUTRAL_MODE);
                 m_shooterMotorFollowerConfig = new TalonFXConfiguration();
-                m_shooterMotorFollowerConfig.MotorOutput.Inverted = ShooterConstants.SHOOTER_MOTOR_FOLLOWER.INVERTED_VALUE;
-                m_shooterMotorFollowerConfig.CurrentLimits = ShooterConstants.SHOOTER_MOTOR_FOLLOWER.CURRENT_LIMITS;
+                m_shooterMotorFollowerConfig.CurrentLimits = ShooterConstants.SHOOTER_MOTOR.CURRENT_LIMITS;
 
-                Slot0Configs slot0_shooterFollower = m_shooterMotorFollowerConfig.Slot0;
-                slot0_shooterFollower.kP = ShooterConstants.SHOOTER_MOTOR_FOLLOWER.kP;
-                slot0_shooterFollower.kI = ShooterConstants.SHOOTER_MOTOR_FOLLOWER.kI;
-                slot0_shooterFollower.kD = ShooterConstants.SHOOTER_MOTOR_FOLLOWER.kD;
-                slot0_shooterFollower.kS = ShooterConstants.SHOOTER_MOTOR_FOLLOWER.kS;
-                slot0_shooterFollower.kV = ShooterConstants.SHOOTER_MOTOR_FOLLOWER.kV;
-                slot0_shooterFollower.kA = ShooterConstants.SHOOTER_MOTOR_FOLLOWER.kA;
+                m_shooterMotorFollower.setControl(new Follower(m_shooterMotor.getDeviceID(),
+                                MotorAlignmentValue.Opposed));
 
-                SubsystemTesting.registerSysIdTests(m_shooterMotorFollower_SysIdRoutine, "Shooter Follower Motor");
-
+                // feeder (kicker)
                 m_feederMotor = new TalonFX(ShooterConstants.FEEDER_MOTOR.ID);
                 m_feederMotor.setNeutralMode(ShooterConstants.FEEDER_MOTOR.NEUTRAL_MODE);
 
@@ -149,6 +124,7 @@ public class Shooter extends SubsystemBase {
 
                 SubsystemTesting.registerSysIdTests(m_feederMotor_SysIdRoutine, "Feeder Motor");
 
+                // indexer (belt)
                 m_indexerMotor = new TalonFX(ShooterConstants.INDEXER_MOTOR.ID);
                 m_indexerMotor.setNeutralMode(ShooterConstants.INDEXER_MOTOR.NEUTRAL_MODE);
 
@@ -173,31 +149,30 @@ public class Shooter extends SubsystemBase {
         public void setup() {
                 setDefaultCommand(run(() -> {
                         m_shooterMotor.setControl(m_shooterMotorVelocityVoltage.withVelocity(0));
-                        m_shooterMotorFollower.setControl(m_shooterMotorFollowerVelocityVoltage.withVelocity(0));
-                        m_shooterMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
-                        m_shooterMotor.setControl(m_indexerMotorVelocityVoltage.withVelocity(0));
+                        m_feederMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
+                        m_indexerMotor.setControl(m_indexerMotorVelocityVoltage.withVelocity(0));
                 }).withName("Shooter Subsystem Stopped"));
 
                 ShooterStates.setupStates();
         }
 
+        // follower motor follows shooter motor, so there is no need to set velocity of
+        // both.
         public Command runShooter() {
                 return run(() -> {
                         m_shooterMotor.setControl(m_shooterMotorVelocityVoltage
                                         .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_FORWARD));
-                        m_shooterMotorFollower.setControl(m_shooterMotorFollowerVelocityVoltage
-                                        .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_BACKWARD));
                 }).finallyDo(() -> {
                         m_shooterMotor.setControl(m_shooterMotorVelocityVoltage.withVelocity(0));
-                        m_shooterMotorFollower.setControl(m_shooterMotorFollowerVelocityVoltage.withVelocity(0));
                 }).withName("ShooterForward");
         }
 
         private void applyConfig() {
                 StatusCode shooter_status = m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
-                StatusCode shooter_follower_status = m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
-                StatusCode feeder_status = m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
-                StatusCode indexer_status = m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
+                StatusCode shooter_follower_status = m_shooterMotorFollower.getConfigurator()
+                                .apply(m_shooterMotorFollowerConfig);
+                StatusCode feeder_status = m_feederMotor.getConfigurator().apply(m_feederMotorConfig);
+                StatusCode indexer_status = m_indexerMotor.getConfigurator().apply(m_indexerMotorConfig);
 
                 if (!shooter_status.isOK())
                         DriverStation.reportWarning(shooter_status.getName() + "Failed to apply configs to shooter"

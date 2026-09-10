@@ -25,6 +25,15 @@ public class ControllerConstants {
     } // Hide constructor
   }
 
+  public static class ArmControls {
+
+    public static double kShooterThreshold = 0.1; // 10% deadband
+    public static double kIntakeThreshold = 0.1; // 10% deadband
+
+    public static int kOpenIntake = XboxController.Button.kB.value;
+    public static int kCloseIntake = XboxController.Button.kX.value;
+  }
+
   public static class TestControls {
     public static int kRunTest = XboxController.Button.kA.value;
 

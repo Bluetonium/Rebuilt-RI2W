@@ -30,6 +30,8 @@ public class ShooterConstants {
     // TODO PID TUNING
     class SHOOTER_MOTOR {
         public static final int ID = 17;
+        public static final int FOLLOWER_ID = 18;
+
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
 
         public static final double ACCELERATION = 90;
@@ -37,30 +39,6 @@ public class ShooterConstants {
         public static final double VELOCITY_BACKWARD = 90;
 
         public static final InvertedValue INVERTED_VALUE = InvertedValue.CounterClockwise_Positive;
-        public static final double GEAR_RATIO = 1;
-
-        public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()
-                .withStatorCurrentLimit(50)
-                .withSupplyCurrentLimit(30);
-
-        public static final double kP = 0.030071;
-        public static final double kI = 0;
-        public static final double kD = 0;
-
-        public static final double kS = 0.17242;
-        public static final double kV = 0.12144;
-        public static final double kA = 0.0032487;
-    }
-
-    class SHOOTER_MOTOR_FOLLOWER {
-        public static final int ID = 40;
-        public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
-
-        public static final double ACCELERATION = 90;
-        public static final double VELOCITY_FORWARD = 90;
-        public static final double VELOCITY_BACKWARD = 90;
-
-        public static final InvertedValue INVERTED_VALUE = InvertedValue.Clockwise_Positive;
         public static final double GEAR_RATIO = 1;
 
         public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()
