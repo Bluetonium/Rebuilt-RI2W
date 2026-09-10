@@ -23,6 +23,14 @@ public class RobotStates {
   public static Trigger m_slowMode;
   public static Trigger m_pointWheel;
 
+  // pid value getting states
+  public static Trigger sysDyn;
+  public static Trigger sysSta;
+  public static Trigger sysDynRev;
+  public static Trigger sysStaRev;
+
+  public static Trigger runShooter;
+
   public static void setupStates() {
     m_teleop = new Trigger(DriverStation::isTeleopEnabled);
     m_autoMode = new Trigger(RobotState::isAutonomous);
@@ -33,6 +41,8 @@ public class RobotStates {
     m_isRed = new Trigger(RobotStates::isRed);
 
     m_endGame = m_teleop.and(() -> DriverStation.getMatchTime() < 20);
+
+    runShooter = new Trigger(Controller.m_runShooter);
 
     // chassis
     m_wheelXPosition = Controller.m_wheelsXPosition;
@@ -51,5 +61,6 @@ public class RobotStates {
   }
 
   private RobotStates() {
+    setupStates();
   } // hide constructor
 }
