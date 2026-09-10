@@ -29,6 +29,8 @@ public class RobotStates {
   public static Trigger sysDynRev;
   public static Trigger sysStaRev;
 
+  public static Trigger runShooter;
+
   public static void setupStates() {
     m_teleop = new Trigger(DriverStation::isTeleopEnabled);
     m_autoMode = new Trigger(RobotState::isAutonomous);
@@ -40,16 +42,13 @@ public class RobotStates {
 
     m_endGame = m_teleop.and(() -> DriverStation.getMatchTime() < 20);
 
+    runShooter = new Trigger(Controller.m_runShooter);
+
     // chassis
     m_wheelXPosition = Controller.m_wheelsXPosition;
     m_zeroHeading = Controller.m_zeroHeading;
     m_pointWheel = Controller.m_pointWheels;
 
-    // PID TUNING
-    // TODO Figure out how the controller sublcass works
-    // I don't know how to access x button Trigger from controller object as opposed
-    // to XboxCommandController
-    // sysDyn = new Trigger(RobotContainer.m_testingController.x());
   }
 
   public static boolean isRed() {

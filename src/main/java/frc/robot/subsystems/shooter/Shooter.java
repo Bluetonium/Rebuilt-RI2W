@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.subsystems.SubsystemTesting;
 
 public class Shooter extends SubsystemBase {
         private TalonFX m_shooterMotor;
@@ -43,7 +44,8 @@ public class Shooter extends SubsystemBase {
         private MotionMagicVelocityVoltage m_indexerMotorVelocityVoltage = new MotionMagicVelocityVoltage(0)
                         .withAcceleration(ShooterConstants.INDEXER_MOTOR.ACCELERATION);
 
-        // TODO Do we really need one of these for each motor? That seems like a lot
+        // TODO Do we really need one of these for each motor? That seems like a lot -
+        // genuine question, KD
         // that we didn't have last year right? - KD
         private final SysIdRoutine m_shooterMotor_SysIdRoutine = new SysIdRoutine(
                         new SysIdRoutine.Config(
@@ -100,6 +102,7 @@ public class Shooter extends SubsystemBase {
 
                 m_shooterMotorConfig = new TalonFXConfiguration();
                 // TODO fix these two lines need to be accurate, and add them for 3 other motors
+                // (shouldn't be urgent) KD
                 m_shooterMotorConfig.MotorOutput.Inverted = ShooterConstants.SHOOTER_MOTOR.INVERTED_VALUE;
                 m_shooterMotorConfig.CurrentLimits = ShooterConstants.SHOOTER_MOTOR.CURRENT_LIMITS;
 
@@ -110,6 +113,8 @@ public class Shooter extends SubsystemBase {
                 slot0_shooter.kS = ShooterConstants.SHOOTER_MOTOR.kS;
                 slot0_shooter.kV = ShooterConstants.SHOOTER_MOTOR.kV;
                 slot0_shooter.kA = ShooterConstants.SHOOTER_MOTOR.kA;
+
+                SubsystemTesting.registerSysIdTests(m_shooterMotor_SysIdRoutine, "Shooter Motor");
 
                 m_shooterMotorFollower = new TalonFX(ShooterConstants.SHOOTER_MOTOR_FOLLOWER.ID);
                 m_shooterMotorFollower.setNeutralMode(ShooterConstants.SHOOTER_MOTOR_FOLLOWER.NEUTRAL_MODE);
@@ -124,6 +129,8 @@ public class Shooter extends SubsystemBase {
                 slot0_shooterFollower.kS = ShooterConstants.SHOOTER_MOTOR_FOLLOWER.kS;
                 slot0_shooterFollower.kV = ShooterConstants.SHOOTER_MOTOR_FOLLOWER.kV;
                 slot0_shooterFollower.kA = ShooterConstants.SHOOTER_MOTOR_FOLLOWER.kA;
+
+                SubsystemTesting.registerSysIdTests(m_shooterMotorFollower_SysIdRoutine, "Shooter Follower Motor");
 
                 m_feederMotor = new TalonFX(ShooterConstants.FEEDER_MOTOR.ID);
                 m_feederMotor.setNeutralMode(ShooterConstants.FEEDER_MOTOR.NEUTRAL_MODE);
@@ -140,6 +147,8 @@ public class Shooter extends SubsystemBase {
                 slot0_feeder.kV = ShooterConstants.FEEDER_MOTOR.kV;
                 slot0_feeder.kA = ShooterConstants.FEEDER_MOTOR.kA;
 
+                SubsystemTesting.registerSysIdTests(m_feederMotor_SysIdRoutine, "Feeder Motor");
+
                 m_indexerMotor = new TalonFX(ShooterConstants.INDEXER_MOTOR.ID);
                 m_indexerMotor.setNeutralMode(ShooterConstants.INDEXER_MOTOR.NEUTRAL_MODE);
 
@@ -155,6 +164,8 @@ public class Shooter extends SubsystemBase {
                 slot0_indexer.kV = ShooterConstants.INDEXER_MOTOR.kV;
                 slot0_indexer.kA = ShooterConstants.INDEXER_MOTOR.kA;
 
+                SubsystemTesting.registerSysIdTests(m_indexerMotor_SysIdRoutine, "Indexer Motor");
+
                 applyConfig();
 
         }
@@ -165,47 +176,21 @@ public class Shooter extends SubsystemBase {
                         m_shooterMotorFollower.setControl(m_shooterMotorFollowerVelocityVoltage.withVelocity(0));
                         m_shooterMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
                         m_shooterMotor.setControl(m_indexerMotorVelocityVoltage.withVelocity(0));
-                }).withName("Shooter Stopped"));
+                }).withName("Shooter Subsystem Stopped"));
 
                 ShooterStates.setupStates();
         }
 
-        // shooter motor sys id routines
-        public Command m_shooterMotor_SysIdQuasistatic(SysIdRoutine.Direction direction) {
-                return m_shooterMotor_SysIdRoutine.quasistatic(direction);
-        }
-
-        // ---------------------------------------Commands-----------------------------------------------------------------
-
-        public Command m_shooterMotor_SysIdDynamic(SysIdRoutine.Direction direction) {
-                return m_shooterMotor_SysIdRoutine.dynamic(direction);
-        }
-
-        // shooter follower motor sys id routines
-        public Command m_shooterMotorFollower_SysIdQuasistatic(SysIdRoutine.Direction direction) {
-                return m_shooterMotorFollower_SysIdRoutine.quasistatic(direction);
-        }
-
-        public Command m_shooterMotorFollower_SysIdDynamic(SysIdRoutine.Direction direction) {
-                return m_shooterMotorFollower_SysIdRoutine.dynamic(direction);
-        }
-
-        // feeder motor sys id routines
-        public Command m_feederMotor_SysIdQuasistatic(SysIdRoutine.Direction direction) {
-                return m_feederMotor_SysIdRoutine.quasistatic(direction);
-        }
-
-        public Command m_feederMotor_SysIdDynamic(SysIdRoutine.Direction direction) {
-                return m_feederMotor_SysIdRoutine.dynamic(direction);
-        }
-
-        // indexer motor sys id routines
-        public Command m_indexMotor_SysIdQuasistatic(SysIdRoutine.Direction direction) {
-                return m_indexerMotor_SysIdRoutine.quasistatic(direction);
-        }
-
-        public Command m_indexerMotor_SysIdDynamic(SysIdRoutine.Direction direction) {
-                return m_indexerMotor_SysIdRoutine.dynamic(direction);
+        public Command runShooter() {
+                return run(() -> {
+                        m_shooterMotor.setControl(m_shooterMotorVelocityVoltage
+                                        .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_FORWARD));
+                        m_shooterMotorFollower.setControl(m_shooterMotorFollowerVelocityVoltage
+                                        .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_BACKWARD));
+                }).finallyDo(() -> {
+                        m_shooterMotor.setControl(m_shooterMotorVelocityVoltage.withVelocity(0));
+                        m_shooterMotorFollower.setControl(m_shooterMotorFollowerVelocityVoltage.withVelocity(0));
+                }).withName("ShooterForward");
         }
 
         private void applyConfig() {
