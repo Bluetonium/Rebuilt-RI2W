@@ -9,5 +9,9 @@ public class IntakeStates {
     public static void setupStates() {
         // TODO add commands and stuff for intaking
         RobotStates.runIntake.whileTrue(intake.runIntake());
+        RobotStates.reverseIntake.whileTrue(intake.reverseIntake());
+
+        RobotStates.openIntake.onTrue(intake.openIntake());
+        RobotStates.closeIntake.onTrue(intake.closeIntake());
     }
 }

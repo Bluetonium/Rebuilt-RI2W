@@ -32,7 +32,16 @@ public class RobotStates {
 
   // arm states
   public static Trigger runShooter;
+  public static Trigger reverseShooter;
+
   public static Trigger runIntake;
+  public static Trigger reverseIntake;
+
+  public static Trigger openIntake;
+  public static Trigger closeIntake;
+
+  public static Trigger runIndexerBelt;
+  public static Trigger reverseIndexerBelt;
 
   public static void setupStates() {
     m_teleop = new Trigger(DriverStation::isTeleopEnabled);
@@ -52,7 +61,16 @@ public class RobotStates {
 
     // arm
     runShooter = Controller.m_runShooter;
+    reverseShooter = Controller.m_reverseShooter;
+
     runIntake = Controller.m_runIntake;
+    reverseIntake = Controller.m_reverseIntake;
+
+    openIntake = Controller.m_openIntake;
+    closeIntake = Controller.m_closeIntake;
+
+    runIndexerBelt = Controller.m_runIndexerBelt;
+    reverseIndexerBelt = Controller.m_reverseIndexerBelt;
 
   }
 

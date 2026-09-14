@@ -28,10 +28,16 @@ public class ControllerConstants {
   public static class ArmControls {
 
     public static double kShooterThreshold = 0.1; // 10% deadband
+    public static int kShooterReverse = XboxController.Button.kRightBumper.value;
+
     public static double kIntakeThreshold = 0.1; // 10% deadband
+    public static int kIntakeReverse = XboxController.Button.kLeftBumper.value;
 
     public static int kOpenIntake = XboxController.Button.kB.value;
-    public static int kCloseIntake = XboxController.Button.kX.value;
+    public static int kCloseIntake = XboxController.Button.kA.value;
+
+    public static int kRunIndexerBeltDpad = 0;
+    public static int kReverseIndexerBeltDpad = 180;
   }
 
   public static class TestControls {

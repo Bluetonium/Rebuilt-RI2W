@@ -8,6 +8,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -36,8 +37,7 @@ public class Intake extends SubsystemBase {
         private MotionMagicVelocityVoltage m_intakeMotorVelocityVoltage = new MotionMagicVelocityVoltage(0)
                         .withAcceleration(IntakeConstants.INTAKE_MOTOR.ACCELERATION);
 
-        private MotionMagicVelocityVoltage m_intakeExtendMotorVelocityVoltage = new MotionMagicVelocityVoltage(0)
-                        .withAcceleration(IntakeConstants.INTAKE_EXTEND_MOTOR.ACCELERATION);
+        private MotionMagicVoltage m_intakeExtendMotorPositionVoltage = new MotionMagicVoltage(0).withSlot(0);
 
         private final SysIdRoutine m_intakeMotor_SysIdRoutine = new SysIdRoutine(new SysIdRoutine.Config(
                         null,
@@ -65,6 +65,7 @@ public class Intake extends SubsystemBase {
                 m_intakeMotor = new TalonFX(IntakeConstants.INTAKE_MOTOR.ID);
                 m_intakeMotor.setNeutralMode(IntakeConstants.INTAKE_MOTOR.NEUTRAL_MODE);
                 m_intakeMotorConfig = new TalonFXConfiguration();
+
                 m_intakeMotorConfig.MotorOutput.Inverted = IntakeConstants.INTAKE_MOTOR.INVERTED_VALUE;
                 m_intakeMotorConfig.CurrentLimits = IntakeConstants.INTAKE_MOTOR.CURRENT_LIMITS;
 
@@ -93,6 +94,14 @@ public class Intake extends SubsystemBase {
                 m_intakeExtendMotorConfig.MotorOutput.Inverted = IntakeConstants.INTAKE_EXTEND_MOTOR.INVERTED_VALUE;
                 m_intakeExtendMotorConfig.CurrentLimits = IntakeConstants.INTAKE_EXTEND_MOTOR.CURRENT_LIMITS;
 
+                // stuff for limited motor motion
+                m_intakeExtendMotorConfig.MotionMagic.MotionMagicCruiseVelocity = IntakeConstants.INTAKE_EXTEND_MOTOR.VELOCITY_FORWARD;
+                m_intakeExtendMotorConfig.MotionMagic.MotionMagicAcceleration = IntakeConstants.INTAKE_EXTEND_MOTOR.ACCELERATION;
+                m_intakeExtendMotorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+                m_intakeExtendMotorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = IntakeConstants.INTAKE_EXTEND_MOTOR.MAX_POSITION;
+                m_intakeExtendMotorConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+                m_intakeExtendMotorConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = IntakeConstants.INTAKE_EXTEND_MOTOR.MIN_POSITION;
+
                 Slot0Configs slot0_intakeExtend = m_intakeExtendMotorConfig.Slot0;
                 slot0_intakeExtend.kP = IntakeConstants.INTAKE_EXTEND_MOTOR.kP;
                 slot0_intakeExtend.kI = IntakeConstants.INTAKE_EXTEND_MOTOR.kI;
@@ -110,7 +119,9 @@ public class Intake extends SubsystemBase {
         public void setup() {
                 setDefaultCommand(run(() -> {
                         m_intakeMotor.setControl(m_intakeMotorVelocityVoltage.withVelocity(0));
-                        m_intakeExtendMotor.setControl(m_intakeExtendMotorVelocityVoltage.withVelocity(0));
+                        // m_intakeExtendMotor.setControl(m_intakeExtendMotorPositionVoltage
+                        // .withPosition(IntakeConstants.INTAKE_EXTEND_MOTOR.MIN_POSITION));
+
                 }).withName("Intake Subsystem Stopped"));
 
                 IntakeStates.setupStates();
@@ -123,6 +134,29 @@ public class Intake extends SubsystemBase {
                 }).finallyDo(() -> {
                         m_intakeMotor.setControl(m_intakeMotorVelocityVoltage.withVelocity(0));
                 }).withName("IntakeForward");
+        }
+
+        public Command reverseIntake() {
+                return run(() -> {
+                        m_intakeMotor.setControl(m_intakeMotorVelocityVoltage
+                                        .withVelocity(IntakeConstants.INTAKE_MOTOR.VELOCITY_BACKWARD));
+                }).finallyDo(() -> {
+                        m_intakeMotor.setControl(m_intakeMotorVelocityVoltage.withVelocity(0));
+                }).withName("IntakeForward");
+        }
+
+        public Command openIntake() {
+                return run(() -> {
+                        m_intakeExtendMotor.setControl(m_intakeExtendMotorPositionVoltage
+                                        .withPosition(IntakeConstants.INTAKE_EXTEND_MOTOR.MAX_POSITION));
+                }).withName("IntakeExtend");
+        }
+
+        public Command closeIntake() {
+                return run(() -> {
+                        m_intakeExtendMotor.setControl(m_intakeExtendMotorPositionVoltage
+                                        .withPosition(IntakeConstants.INTAKE_EXTEND_MOTOR.MIN_POSITION));
+                }).withName("IntakeRetract");
         }
 
         public void applyConfig() {
