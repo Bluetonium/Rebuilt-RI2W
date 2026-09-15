@@ -164,16 +164,40 @@ public class Shooter extends SubsystemBase {
                                         .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_FORWARD));
                         m_feederMotor.setControl(m_feederMotorVelocityVoltage
                                         .withVelocity(ShooterConstants.FEEDER_MOTOR.VELOCITY_FORWARD));
+                }).finallyDo(() -> {
+                        m_shooterMotor.setControl(m_shooterMotorVelocityVoltage.withVelocity(0));
+                        m_feederMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
+                }).withName("ShooterForward");
+        }
+
+        public Command reverseShooter() {
+                return run(() -> {
+                        m_shooterMotor.setControl(m_shooterMotorVelocityVoltage
+                                        .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_BACKWARD));
+                        m_feederMotor.setControl(m_feederMotorVelocityVoltage
+                                        .withVelocity(ShooterConstants.FEEDER_MOTOR.VELOCITY_BACKWARD));
+                }).finallyDo(() -> {
+                        m_shooterMotor.setControl(m_shooterMotorVelocityVoltage.withVelocity(0));
+                        m_feederMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
+                }).withName("ShooterBackward");
+        }
+
+        public Command runIndexer() {
+                return run(() -> {
+                        m_shooterMotor.setControl(m_shooterMotorVelocityVoltage
+                                        .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_FORWARD));
+                        m_feederMotor.setControl(m_feederMotorVelocityVoltage
+                                        .withVelocity(ShooterConstants.FEEDER_MOTOR.VELOCITY_FORWARD));
                         m_indexerMotor.setControl(m_indexerMotorVelocityVoltage
                                         .withVelocity(ShooterConstants.INDEXER_MOTOR.VELOCITY_FORWARD));
                 }).finallyDo(() -> {
                         m_shooterMotor.setControl(m_shooterMotorVelocityVoltage.withVelocity(0));
                         m_feederMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
                         m_indexerMotor.setControl(m_indexerMotorVelocityVoltage.withVelocity(0));
-                }).withName("ShooterForward");
+                });
         }
 
-        public Command reverseShooter() {
+        public Command reverseIndexer() {
                 return run(() -> {
                         m_shooterMotor.setControl(m_shooterMotorVelocityVoltage
                                         .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_BACKWARD));
@@ -184,24 +208,6 @@ public class Shooter extends SubsystemBase {
                 }).finallyDo(() -> {
                         m_shooterMotor.setControl(m_shooterMotorVelocityVoltage.withVelocity(0));
                         m_feederMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
-                        m_indexerMotor.setControl(m_indexerMotorVelocityVoltage.withVelocity(0));
-                }).withName("ShooterBackward");
-        }
-
-        public Command runIndexer() {
-                return run(() -> {
-                        m_indexerMotor.setControl(m_indexerMotorVelocityVoltage
-                                        .withVelocity(ShooterConstants.INDEXER_MOTOR.VELOCITY_FORWARD));
-                }).finallyDo(() -> {
-                        m_indexerMotor.setControl(m_indexerMotorVelocityVoltage.withVelocity(0));
-                });
-        }
-
-        public Command reverseIndexer() {
-                return run(() -> {
-                        m_indexerMotor.setControl(m_indexerMotorVelocityVoltage
-                                        .withVelocity(ShooterConstants.INDEXER_MOTOR.VELOCITY_BACKWARD));
-                }).finallyDo(() -> {
                         m_indexerMotor.setControl(m_indexerMotorVelocityVoltage.withVelocity(0));
                 });
         }

@@ -34,9 +34,9 @@ public class ShooterConstants {
 
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
 
-        public static final double ACCELERATION = 70;
-        public static final double VELOCITY_FORWARD = 70;
-        public static final double VELOCITY_BACKWARD = -70;
+        public static final double ACCELERATION = 90;
+        public static final double VELOCITY_FORWARD = 90;
+        public static final double VELOCITY_BACKWARD = -90;
 
         public static final InvertedValue INVERTED_VALUE = InvertedValue.CounterClockwise_Positive;
         public static final double GEAR_RATIO = 1;
@@ -57,11 +57,11 @@ public class ShooterConstants {
     class FEEDER_MOTOR {
         public static final int ID = 20;
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
-        public static final double ACCELERATION = 20;
+        public static final double ACCELERATION = 30;
         public static final double VELOCITY_FORWARD = 30;
         public static final double VELOCITY_BACKWARD = -30;
 
-        public static final InvertedValue INVERTED_VALUE = InvertedValue.Clockwise_Positive;
+        public static final InvertedValue INVERTED_VALUE = InvertedValue.CounterClockwise_Positive;
         public static final double GEAR_RATIO = 1;
 
         public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()
@@ -82,9 +82,9 @@ public class ShooterConstants {
         public static final int ID = 19;
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
 
-        public static final double ACCELERATION = 40;
-        public static final double VELOCITY_FORWARD = 50;
-        public static final double VELOCITY_BACKWARD = -50;
+        public static final double ACCELERATION = 25;
+        public static final double VELOCITY_FORWARD = 25;
+        public static final double VELOCITY_BACKWARD = -25;
 
         public static final InvertedValue INVERTED_VALUE = InvertedValue.Clockwise_Positive;
         public static final double GEAR_RATIO = 4;
