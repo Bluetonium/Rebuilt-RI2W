@@ -33,8 +33,8 @@ public class RobotContainer {
   public static Controller m_controller2 = null;
 
   @Getter
-  public static Controller m_testingController = null;// used for running the
-  // subsystem tests - someone else (and PID tuning? - KD)
+  public static Controller m_testingController = null;
+
   @Getter
   private static Vision m_vision = null;
 
@@ -43,13 +43,14 @@ public class RobotContainer {
     RobotStates.setupStates();
     setupSubsystems();
     RobotSim.SetupSim();
+
     Auton.initializeAuton();
   }
 
   private void initializeSubsystems() {
     // controllers
     m_controller1 = new Controller(0).withControl(CONTROLLABLE_SYSTEMS.kChassis);
-    m_controller2 = new Controller(1);
+    m_controller2 = new Controller(1).withControl(CONTROLLABLE_SYSTEMS.kArm);
     m_testingController = new Controller(2).withControl(CONTROLLABLE_SYSTEMS.kTests);
 
     // main subsystems
@@ -66,6 +67,7 @@ public class RobotContainer {
 
     m_drivetrain.setup();
     m_shooter.setup();
+    m_intake.setup();
     m_intake.setup();
     m_vision.setup();
   }

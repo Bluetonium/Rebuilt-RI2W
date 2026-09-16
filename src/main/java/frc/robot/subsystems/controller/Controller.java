@@ -19,10 +19,21 @@ public class Controller {
   public static Trigger m_pointWheels = null;
   public static Trigger m_zeroHeading = null;
 
+  // Arm
+  public static Trigger m_runShooter = null;
+  public static Trigger m_reverseShooter = null;
+
+  public static Trigger m_runIntake = null;
+  public static Trigger m_reverseIntake = null;
+
+  public static Trigger m_openIntake = null;
+  public static Trigger m_closeIntake = null;
+
+  public static Trigger m_runIndexerBelt = null;
+  public static Trigger m_reverseIndexerBelt = null;
+
   // Tests
   public static Trigger m_runTest = null;
-
-  public static Trigger m_runShooter = null;
 
   // Instance variables
   private final CommandXboxController m_controller;
@@ -42,7 +53,21 @@ public class Controller {
         m_wheelsXPosition = m_controller.button(ControllerConstants.ChassisControls.kWheelXPosition);
         m_pointWheels = m_controller.button(ControllerConstants.ChassisControls.kPointWheels);
         m_zeroHeading = m_controller.button(ControllerConstants.ChassisControls.kZeroHeading);
-        m_runShooter = m_controller.button(ControllerConstants.ChassisControls.trigger);
+
+        break;
+
+      case kArm:
+        m_runShooter = m_controller.rightTrigger(ControllerConstants.ArmControls.kShooterThreshold);
+        m_reverseShooter = m_controller.button(ControllerConstants.ArmControls.kShooterReverse);
+
+        m_runIntake = m_controller.leftTrigger(ControllerConstants.ArmControls.kIntakeThreshold);
+        m_reverseIntake = m_controller.button(ControllerConstants.ArmControls.kIntakeReverse);
+
+        m_openIntake = m_controller.button(ControllerConstants.ArmControls.kOpenIntake);
+        m_closeIntake = m_controller.button(ControllerConstants.ArmControls.kCloseIntake);
+
+        m_runIndexerBelt = m_controller.pov(ControllerConstants.ArmControls.kRunIndexerBeltDpad);
+        m_reverseIndexerBelt = m_controller.pov(ControllerConstants.ArmControls.kReverseIndexerBeltDpad);
 
         break;
 

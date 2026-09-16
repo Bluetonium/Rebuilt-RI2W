@@ -9,5 +9,9 @@ public class ShooterStates {
     public static void setupStates() {
         // TODO add commands for shooting subsystem
         RobotStates.runShooter.whileTrue(shooter.runShooter());
+        RobotStates.reverseShooter.whileTrue(shooter.reverseShooter());
+
+        RobotStates.runIndexerBelt.whileTrue(shooter.runIndexer());
+        RobotStates.reverseIndexerBelt.whileTrue(shooter.reverseIndexer());
     }
 }

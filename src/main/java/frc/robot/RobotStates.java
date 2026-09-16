@@ -16,12 +16,6 @@ public class RobotStates {
   public static Trigger m_endGame;
   public static Trigger m_Estopped;
   public static Trigger m_isRed;
-  // chassis
-  public static Trigger m_wheelXPosition;
-  public static Trigger m_zeroHeading;
-
-  public static Trigger m_slowMode;
-  public static Trigger m_pointWheel;
 
   // pid value getting states
   public static Trigger sysDyn;
@@ -29,7 +23,25 @@ public class RobotStates {
   public static Trigger sysDynRev;
   public static Trigger sysStaRev;
 
+  // chassis states
+  public static Trigger m_wheelXPosition;
+  public static Trigger m_zeroHeading;
+
+  public static Trigger m_slowMode;
+  public static Trigger m_pointWheel;
+
+  // arm states
   public static Trigger runShooter;
+  public static Trigger reverseShooter;
+
+  public static Trigger runIntake;
+  public static Trigger reverseIntake;
+
+  public static Trigger openIntake;
+  public static Trigger closeIntake;
+
+  public static Trigger runIndexerBelt;
+  public static Trigger reverseIndexerBelt;
 
   public static void setupStates() {
     m_teleop = new Trigger(DriverStation::isTeleopEnabled);
@@ -42,12 +54,23 @@ public class RobotStates {
 
     m_endGame = m_teleop.and(() -> DriverStation.getMatchTime() < 20);
 
-    runShooter = new Trigger(Controller.m_runShooter);
-
     // chassis
     m_wheelXPosition = Controller.m_wheelsXPosition;
     m_zeroHeading = Controller.m_zeroHeading;
     m_pointWheel = Controller.m_pointWheels;
+
+    // arm
+    runShooter = Controller.m_runShooter;
+    reverseShooter = Controller.m_reverseShooter;
+
+    runIntake = Controller.m_runIntake;
+    reverseIntake = Controller.m_reverseIntake;
+
+    openIntake = Controller.m_openIntake;
+    closeIntake = Controller.m_closeIntake;
+
+    runIndexerBelt = Controller.m_runIndexerBelt;
+    reverseIndexerBelt = Controller.m_reverseIndexerBelt;
 
   }
 
