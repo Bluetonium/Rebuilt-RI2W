@@ -162,6 +162,7 @@ public class Shooter extends SubsystemBase {
                 return run(() -> {
                         m_shooterMotor.setControl(m_shooterMotorVelocityVoltage
                                         .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_FORWARD));
+
                         m_feederMotor.setControl(m_feederMotorVelocityVoltage
                                         .withVelocity(ShooterConstants.FEEDER_MOTOR.VELOCITY_FORWARD));
                 }).finallyDo(() -> {

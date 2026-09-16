@@ -7,8 +7,9 @@ public class VisionConstants {
      */
     public enum LIMELIGHTS {
         // EXAMPLE("example", 1, 1, 1, 0, 0, 0);
-        kFront("limelight-back", -0.266, -0.329, 0.155, 0, 180, 0);
-        ;
+        // (name, x,y,z,roll,pitch,yaw)
+        kBack("limelight-back", -0.266, -0.329, 0.155, 0, 0, 180),
+        kLeft("limelight-left", -0.2159, -0.3429, 0.4826, 0, 0, 270);
 
         public final String m_name;
         public final double m_x;
@@ -20,8 +21,8 @@ public class VisionConstants {
 
         public final boolean m_localization;
 
-        private LIMELIGHTS(String name, double x, double y, double z, double pitch, double yaw, double roll,
-        boolean localization) {
+        private LIMELIGHTS(String name, double x, double y, double z, double roll, double pitch, double yaw,
+                boolean localization) {
             m_name = name;
             m_x = x;
             m_y = y;
@@ -34,8 +35,8 @@ public class VisionConstants {
                                            // localization
         }
 
-        private LIMELIGHTS(String name, double x, double y, double z, double pitch, double yaw, double roll) {
-            this(name, x, y, z, pitch, yaw, roll, true);
+        private LIMELIGHTS(String name, double x, double y, double z, double roll, double pitch, double yaw) {
+            this(name, x, y, z, roll, pitch, yaw, true);
         }
     }
 

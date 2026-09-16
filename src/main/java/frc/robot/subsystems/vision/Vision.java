@@ -53,16 +53,18 @@ public class Vision extends SubsystemBase {
      * Sets the pipeline on the limelight
      * 
      * @param limelight the limelight to operate on
-     * @param pipeline the pipeline to change it to
+     * @param pipeline  the pipeline to change it to
      */
     public void setPipeline(LIMELIGHTS limelight, LIMELIGHT_PIPELINES pipeline) {
         LimelightHelpers.setPipelineIndex(limelight.m_name, pipeline.m_pipeline);
 
-        if (limelight.m_localization)
-            if (pipeline == LIMELIGHT_PIPELINES.m_localization)
+        if (limelight.m_localization) {
+            if (pipeline == LIMELIGHT_PIPELINES.m_localization) {
                 m_localization_limelights.add(limelight);
-            else
+            } else {
                 m_localization_limelights.remove(limelight);
+            }
+        }
     }
 
     @Override
@@ -93,19 +95,19 @@ public class Vision extends SubsystemBase {
 
     private void setLimelightPos(LIMELIGHTS limelight) {
         LimelightHelpers.setCameraPose_RobotSpace(limelight.m_name, limelight.m_x, limelight.m_y, limelight.m_z,
-        limelight.m_roll, limelight.m_pitch, limelight.m_yaw);
+                limelight.m_roll, limelight.m_pitch, limelight.m_yaw);
 
     }
 
     private void localizationMeasurement(LIMELIGHTS limelight) {
         LimelightHelpers.SetRobotOrientation(limelight.m_name, m_drivetrain.getState().Pose.getRotation().getDegrees(),
-        m_gyro.getAngularVelocityZWorld().getValueAsDouble(), 0, 0, 0, 0);
+                m_gyro.getAngularVelocityZWorld().getValueAsDouble(), 0, 0, 0, 0);
 
         LimelightHelpers.PoseEstimate estimatedPosition = LimelightHelpers
-        .getBotPoseEstimate_wpiBlue_MegaTag2(limelight.m_name);
+                .getBotPoseEstimate_wpiBlue_MegaTag2(limelight.m_name);
 
         if (estimatedPosition == null || estimatedPosition.tagCount == 0
-        || Math.abs(m_gyro.getAngularVelocityZWorld().getValueAsDouble()) > 720)
+                || Math.abs(m_gyro.getAngularVelocityZWorld().getValueAsDouble()) > 720)
             return;// reject measurements if not seeing a tag or going too fast
 
         double timeStamp = m_drivetrain.getState().Timestamp - estimatedPosition.latency / 1000;
