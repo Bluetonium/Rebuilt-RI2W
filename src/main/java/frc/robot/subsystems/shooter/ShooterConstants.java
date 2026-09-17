@@ -41,10 +41,12 @@ public class ShooterConstants {
         // velocity that the motor must be at before feeding flywheel balls
         public static final double TARGET_SHOOT_VELOCITY = VELOCITY_FORWARD;
 
-        public static final double HUB_SHOOT_VELOCITY = 50;
-        public static final double TOWER_SHOOT_VELOCITY = 60;
-        public static final double TRENCH_SHOOT_VELOCITY = 65;
-        public static final double CORNER_SHOOT_VELOCITY = 90;
+        // Only change these values for the positions
+        public static final double HUB_SHOOT_VELOCITY = 50; // x
+        public static final double TOWER_SHOOT_VELOCITY = 60; // dpad up
+        public static final double TRENCH_SHOOT_VELOCITY = 65; // y
+        public static final double CORNER_SHOOT_VELOCITY = 90;// dpad left
+        // James, Position, Check Here
 
         public static final InvertedValue INVERTED_VALUE = InvertedValue.CounterClockwise_Positive;
         public static final double GEAR_RATIO = 1;
