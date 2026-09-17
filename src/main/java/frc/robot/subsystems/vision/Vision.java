@@ -44,6 +44,7 @@ public class Vision extends SubsystemBase {
     public Command SetAllLocalization() {
         return runOnce(() -> {
             for (LIMELIGHTS limelight : LIMELIGHTS.values()) {
+                SmartDashboard.putString("Kaidens limelight check", limelight.m_name);
                 setPipeline(limelight, LIMELIGHT_PIPELINES.m_localization);
             }
         }).andThen(Commands.idle()).withName("Vision.Localization").ignoringDisable(true);

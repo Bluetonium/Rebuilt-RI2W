@@ -162,12 +162,30 @@ public class Shooter extends SubsystemBase {
                 return run(() -> {
                         m_shooterMotor.setControl(m_shooterMotorVelocityVoltage
                                         .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_FORWARD));
-
-                        m_feederMotor.setControl(m_feederMotorVelocityVoltage
-                                        .withVelocity(ShooterConstants.FEEDER_MOTOR.VELOCITY_FORWARD));
+                        if (shooterAtTargetSpeed()) {
+                                m_feederMotor.setControl(m_feederMotorVelocityVoltage
+                                                .withVelocity(ShooterConstants.FEEDER_MOTOR.VELOCITY_FORWARD));
+                        }
                 }).finallyDo(() -> {
                         m_shooterMotor.setControl(m_shooterMotorVelocityVoltage.withVelocity(0));
                         m_feederMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
+                }).withName("ShooterForward");
+        }
+
+        public Command runShooterAtPosition(double velocity) {
+                return run(() -> {
+                        m_shooterMotor.setControl(m_shooterMotorVelocityVoltage
+                                        .withVelocity(ShooterConstants.SHOOTER_MOTOR.HUB_SHOOT_VELOCITY));
+                        m_indexerMotor.setControl(m_indexerMotorVelocityVoltage
+                                        .withVelocity(ShooterConstants.INDEXER_MOTOR.VELOCITY_FORWARD));
+                        if (shooterAtTargetSpeed(ShooterConstants.SHOOTER_MOTOR.HUB_SHOOT_VELOCITY)) {
+                                m_feederMotor.setControl(m_feederMotorVelocityVoltage
+                                                .withVelocity(ShooterConstants.FEEDER_MOTOR.VELOCITY_FORWARD));
+                        }
+                }).finallyDo(() -> {
+                        m_shooterMotor.setControl(m_shooterMotorVelocityVoltage.withVelocity(0));
+                        m_feederMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
+                        m_indexerMotor.setControl(m_indexerMotorVelocityVoltage.withVelocity(0));
                 }).withName("ShooterForward");
         }
 
@@ -187,10 +205,12 @@ public class Shooter extends SubsystemBase {
                 return run(() -> {
                         m_shooterMotor.setControl(m_shooterMotorVelocityVoltage
                                         .withVelocity(ShooterConstants.SHOOTER_MOTOR.VELOCITY_FORWARD));
-                        m_feederMotor.setControl(m_feederMotorVelocityVoltage
-                                        .withVelocity(ShooterConstants.FEEDER_MOTOR.VELOCITY_FORWARD));
                         m_indexerMotor.setControl(m_indexerMotorVelocityVoltage
                                         .withVelocity(ShooterConstants.INDEXER_MOTOR.VELOCITY_FORWARD));
+                        if (shooterAtTargetSpeed()) {
+                                m_feederMotor.setControl(m_feederMotorVelocityVoltage
+                                                .withVelocity(ShooterConstants.FEEDER_MOTOR.VELOCITY_FORWARD));
+                        }
                 }).finallyDo(() -> {
                         m_shooterMotor.setControl(m_shooterMotorVelocityVoltage.withVelocity(0));
                         m_feederMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
@@ -211,6 +231,16 @@ public class Shooter extends SubsystemBase {
                         m_feederMotor.setControl(m_feederMotorVelocityVoltage.withVelocity(0));
                         m_indexerMotor.setControl(m_indexerMotorVelocityVoltage.withVelocity(0));
                 });
+        }
+
+        public boolean shooterAtTargetSpeed() {
+                return Math.abs(m_shooterMotor.getVelocity()
+                                .getValueAsDouble()) >= ShooterConstants.SHOOTER_MOTOR.TARGET_SHOOT_VELOCITY;
+        }
+
+        public boolean shooterAtTargetSpeed(double specificSpeed) {
+                return Math.abs(m_shooterMotor.getVelocity()
+                                .getValueAsDouble()) >= specificSpeed;
         }
 
         private void applyConfig() {

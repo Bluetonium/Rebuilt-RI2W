@@ -34,6 +34,11 @@ public class RobotStates {
   public static Trigger runShooter;
   public static Trigger reverseShooter;
 
+  public static Trigger runShooterAtHub;
+  public static Trigger runShooterAtCorner;
+  public static Trigger runShooterAtTrench;
+  public static Trigger runShooterAtTower;
+
   public static Trigger runIntake;
   public static Trigger reverseIntake;
 
@@ -71,6 +76,12 @@ public class RobotStates {
 
     runIndexerBelt = Controller.m_runIndexerBelt;
     reverseIndexerBelt = Controller.m_reverseIndexerBelt;
+
+    // shoot positions
+    runShooterAtHub = Controller.m_runShooterAtHub;
+    runShooterAtCorner = Controller.m_runShooterAtCorner;
+    runShooterAtTower = Controller.m_runShooterAtTower;
+    runShooterAtTrench = Controller.m_runShooterAtTrench;
 
   }
 

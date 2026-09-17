@@ -34,9 +34,17 @@ public class ShooterConstants {
 
         public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
 
-        public static final double ACCELERATION = 90;
-        public static final double VELOCITY_FORWARD = 90;
-        public static final double VELOCITY_BACKWARD = -90;
+        public static final double ACCELERATION = 80;
+        public static final double VELOCITY_FORWARD = 80;
+        public static final double VELOCITY_BACKWARD = -80;
+
+        // velocity that the motor must be at before feeding flywheel balls
+        public static final double TARGET_SHOOT_VELOCITY = VELOCITY_FORWARD;
+
+        public static final double HUB_SHOOT_VELOCITY = 50;
+        public static final double TOWER_SHOOT_VELOCITY = 60;
+        public static final double TRENCH_SHOOT_VELOCITY = 65;
+        public static final double CORNER_SHOOT_VELOCITY = 90;
 
         public static final InvertedValue INVERTED_VALUE = InvertedValue.CounterClockwise_Positive;
         public static final double GEAR_RATIO = 1;
@@ -45,13 +53,13 @@ public class ShooterConstants {
                 .withStatorCurrentLimit(50)
                 .withSupplyCurrentLimit(30);
 
-        public static final double kP = 0.030071;
+        public static final double kP = 0.09327;
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0.17242;
-        public static final double kV = 0.12144;
-        public static final double kA = 0.0032487;
+        public static final double kS = 0.14667;
+        public static final double kV = 0.11981;
+        public static final double kA = 0.017895;
     }
 
     class FEEDER_MOTOR {

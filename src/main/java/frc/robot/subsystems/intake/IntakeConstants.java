@@ -46,7 +46,7 @@ public class IntakeConstants {
         // with 25:1 gear ratio, 25 motor rotations is one output rotation
         public static final double GEAR_RATIO = 25;
         // for this system, ~2 output rotations traverses full intake extender
-        private static final double MAX_ROTATIONS = 1.25; // plugs into below
+        private static final double MAX_ROTATIONS = 1.24; // plugs into below
         public static final double MAX_POSITION = GEAR_RATIO * MAX_ROTATIONS;
         public static final double MIN_POSITION = 0;
 

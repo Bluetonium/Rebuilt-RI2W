@@ -16,7 +16,6 @@ public class ControllerConstants {
 
     public static int kPointWheels = XboxController.Button.kA.value;
     public static int kZeroHeading = XboxController.Button.kB.value;
-    public static int trigger = XboxController.Button.kRightBumper.value;
 
     public static double kTranslationDeadband = 0.1; // 10% deadband
     public static double kRotationDeadband = 0.1; // 10% deadband
@@ -36,8 +35,14 @@ public class ControllerConstants {
     public static int kOpenIntake = XboxController.Button.kB.value;
     public static int kCloseIntake = XboxController.Button.kA.value;
 
-    public static int kRunIndexerBeltDpad = 0;
-    public static int kReverseIndexerBeltDpad = 180;
+    public static int kX = XboxController.Button.kX.value;
+    public static int kY = XboxController.Button.kY.value;
+
+    // used for shooting without running belt currently
+    public static int kDpadUp = 0;
+    public static int kDpadDown = 180;
+    public static int kDpadLeft = 270;
+    public static int kDpadRight = 90;
   }
 
   public static class TestControls {

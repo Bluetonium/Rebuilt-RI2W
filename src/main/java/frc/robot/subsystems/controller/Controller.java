@@ -32,6 +32,12 @@ public class Controller {
   public static Trigger m_runIndexerBelt = null;
   public static Trigger m_reverseIndexerBelt = null;
 
+  // shoot positions
+  public static Trigger m_runShooterAtHub = null;
+  public static Trigger m_runShooterAtTrench = null;
+  public static Trigger m_runShooterAtTower = null;
+  public static Trigger m_runShooterAtCorner = null;
+
   // Tests
   public static Trigger m_runTest = null;
 
@@ -57,8 +63,12 @@ public class Controller {
         break;
 
       case kArm:
-        m_runShooter = m_controller.rightTrigger(ControllerConstants.ArmControls.kShooterThreshold);
-        m_reverseShooter = m_controller.button(ControllerConstants.ArmControls.kShooterReverse);
+        // m_runShooter = m_controller.pov(ControllerConstants.ArmControls.kDpadUp);
+        // m_reverseShooter =
+        // m_controller.pov(ControllerConstants.ArmControls.kDpadDown);
+
+        m_runIndexerBelt = m_controller.rightTrigger(ControllerConstants.ArmControls.kShooterThreshold);
+        m_reverseIndexerBelt = m_controller.button(ControllerConstants.ArmControls.kShooterReverse);
 
         m_runIntake = m_controller.leftTrigger(ControllerConstants.ArmControls.kIntakeThreshold);
         m_reverseIntake = m_controller.button(ControllerConstants.ArmControls.kIntakeReverse);
@@ -66,8 +76,11 @@ public class Controller {
         m_openIntake = m_controller.button(ControllerConstants.ArmControls.kOpenIntake);
         m_closeIntake = m_controller.button(ControllerConstants.ArmControls.kCloseIntake);
 
-        m_runIndexerBelt = m_controller.pov(ControllerConstants.ArmControls.kRunIndexerBeltDpad);
-        m_reverseIndexerBelt = m_controller.pov(ControllerConstants.ArmControls.kReverseIndexerBeltDpad);
+        // shoot positions
+        m_runShooterAtHub = m_controller.button(ControllerConstants.ArmControls.kX);
+        m_runShooterAtTrench = m_controller.button(ControllerConstants.ArmControls.kY);
+        m_runShooterAtTower = m_controller.button(ControllerConstants.ArmControls.kDpadUp);
+        m_runShooterAtCorner = m_controller.button(ControllerConstants.ArmControls.kDpadLeft);
 
         break;
 
