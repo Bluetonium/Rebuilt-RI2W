@@ -30,6 +30,9 @@ public class RobotStates {
   public static Trigger m_slowMode;
   public static Trigger m_pointWheel;
 
+  public static Trigger m_chassisRunIntake;
+  public static Trigger m_chassisReverseIntake;
+
   // arm states
   public static Trigger runShooter;
   public static Trigger reverseShooter;
@@ -63,6 +66,9 @@ public class RobotStates {
     m_wheelXPosition = Controller.m_wheelsXPosition;
     m_zeroHeading = Controller.m_zeroHeading;
     m_pointWheel = Controller.m_pointWheels;
+
+    m_chassisRunIntake = Controller.m_chassisRunIntake;
+    m_chassisReverseIntake = Controller.m_chassisReverseIntake;
 
     // arm
     runShooter = Controller.m_runShooter;

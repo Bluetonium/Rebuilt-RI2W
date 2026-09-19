@@ -20,6 +20,9 @@ public class ControllerConstants {
     public static double kTranslationDeadband = 0.1; // 10% deadband
     public static double kRotationDeadband = 0.1; // 10% deadband
 
+    public static double kChassisIntakeThreshold = 0.1;
+    public static int kChassisIntakeReverse = XboxController.Button.kLeftBumper.value;
+
     private ChassisControls() {
     } // Hide constructor
   }

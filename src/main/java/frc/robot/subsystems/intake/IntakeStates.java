@@ -13,5 +13,9 @@ public class IntakeStates {
 
         RobotStates.openIntake.onTrue(intake.openIntake());
         RobotStates.closeIntake.onTrue(intake.closeIntake());
+
+        // chassis intake controls
+        RobotStates.m_chassisRunIntake.whileTrue(intake.runIntake());
+        RobotStates.m_chassisReverseIntake.whileTrue(intake.reverseIntake());
     }
 }
