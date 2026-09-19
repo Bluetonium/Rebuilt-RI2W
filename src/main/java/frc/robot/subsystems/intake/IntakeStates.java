@@ -8,11 +8,11 @@ public class IntakeStates {
 
     public static void setupStates() {
         // TODO add commands and stuff for intaking
-        RobotStates.runIntake.whileTrue(intake.runIntake());
-        RobotStates.reverseIntake.whileTrue(intake.reverseIntake());
+        RobotStates.m_runIntake.whileTrue(intake.runIntake());
+        RobotStates.m_reverseIntake.whileTrue(intake.reverseIntake());
 
-        RobotStates.openIntake.onTrue(intake.openIntake());
-        RobotStates.closeIntake.onTrue(intake.closeIntake());
+        RobotStates.m_openIntake.onTrue(intake.openIntake());
+        RobotStates.m_closeIntake.onTrue(intake.closeIntake());
 
         // chassis intake controls
         RobotStates.m_chassisRunIntake.whileTrue(intake.runIntake());

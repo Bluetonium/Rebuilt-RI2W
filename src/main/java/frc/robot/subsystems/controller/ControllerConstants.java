@@ -23,6 +23,9 @@ public class ControllerConstants {
     public static double kChassisIntakeThreshold = 0.1;
     public static int kChassisIntakeReverse = XboxController.Button.kLeftBumper.value;
 
+    public static int kDpadRight = 90;
+    public static int kDpadDown = 180;
+
     private ChassisControls() {
     } // Hide constructor
   }

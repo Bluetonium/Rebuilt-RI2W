@@ -33,23 +33,29 @@ public class RobotStates {
   public static Trigger m_chassisRunIntake;
   public static Trigger m_chassisReverseIntake;
 
+  public static Trigger m_chassisOpenBlocker;
+  public static Trigger m_chassisCloseBlocker;
+
   // arm states
-  public static Trigger runShooter;
-  public static Trigger reverseShooter;
+  public static Trigger m_runShooter;
+  public static Trigger m_reverseShooter;
 
-  public static Trigger runShooterAtHub;
-  public static Trigger runShooterAtCorner;
-  public static Trigger runShooterAtTrench;
-  public static Trigger runShooterAtTower;
+  public static Trigger m_runShooterAtHub;
+  public static Trigger m_runShooterAtCorner;
+  public static Trigger m_runShooterAtTrench;
+  public static Trigger m_runShooterAtTower;
 
-  public static Trigger runIntake;
-  public static Trigger reverseIntake;
+  public static Trigger m_runIntake;
+  public static Trigger m_reverseIntake;
 
-  public static Trigger openIntake;
-  public static Trigger closeIntake;
+  public static Trigger m_openIntake;
+  public static Trigger m_closeIntake;
 
-  public static Trigger runIndexerBelt;
-  public static Trigger reverseIndexerBelt;
+  public static Trigger m_runIndexerBelt;
+  public static Trigger m_reverseIndexerBelt;
+
+  public static Trigger m_openBlocker;
+  public static Trigger m_closeBlocker;
 
   public static void setupStates() {
     m_teleop = new Trigger(DriverStation::isTeleopEnabled);
@@ -69,25 +75,30 @@ public class RobotStates {
 
     m_chassisRunIntake = Controller.m_chassisRunIntake;
     m_chassisReverseIntake = Controller.m_chassisReverseIntake;
+    m_chassisOpenBlocker = Controller.m_chassisOpenBlocker;
+    m_chassisCloseBlocker = Controller.m_chassisOpenBlocker;
 
     // arm
-    runShooter = Controller.m_runShooter;
-    reverseShooter = Controller.m_reverseShooter;
+    m_runShooter = Controller.m_runShooter;
+    m_reverseShooter = Controller.m_reverseShooter;
 
-    runIntake = Controller.m_runIntake;
-    reverseIntake = Controller.m_reverseIntake;
+    m_runIntake = Controller.m_runIntake;
+    m_reverseIntake = Controller.m_reverseIntake;
 
-    openIntake = Controller.m_openIntake;
-    closeIntake = Controller.m_closeIntake;
+    m_openIntake = Controller.m_openIntake;
+    m_closeIntake = Controller.m_closeIntake;
 
-    runIndexerBelt = Controller.m_runIndexerBelt;
-    reverseIndexerBelt = Controller.m_reverseIndexerBelt;
+    m_runIndexerBelt = Controller.m_runIndexerBelt;
+    m_reverseIndexerBelt = Controller.m_reverseIndexerBelt;
+
+    m_openBlocker = Controller.m_openBlocker;
+    m_closeBlocker = Controller.m_closeBlocker;
 
     // shoot positions
-    runShooterAtHub = Controller.m_runShooterAtHub;
-    runShooterAtCorner = Controller.m_runShooterAtCorner;
-    runShooterAtTower = Controller.m_runShooterAtTower;
-    runShooterAtTrench = Controller.m_runShooterAtTrench;
+    m_runShooterAtHub = Controller.m_runShooterAtHub;
+    m_runShooterAtCorner = Controller.m_runShooterAtCorner;
+    m_runShooterAtTower = Controller.m_runShooterAtTower;
+    m_runShooterAtTrench = Controller.m_runShooterAtTrench;
 
   }
 

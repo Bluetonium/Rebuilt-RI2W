@@ -22,6 +22,9 @@ public class Controller {
   public static Trigger m_chassisRunIntake = null;
   public static Trigger m_chassisReverseIntake = null;
 
+  public static Trigger m_chassisOpenBlocker = null;
+  public static Trigger m_chassisCloseBlocker = null;
+
   // Arm
   public static Trigger m_runShooter = null;
   public static Trigger m_reverseShooter = null;
@@ -34,6 +37,9 @@ public class Controller {
 
   public static Trigger m_runIndexerBelt = null;
   public static Trigger m_reverseIndexerBelt = null;
+
+  public static Trigger m_openBlocker = null;
+  public static Trigger m_closeBlocker = null;
 
   // shoot positions
   public static Trigger m_runShooterAtHub = null;
@@ -66,6 +72,10 @@ public class Controller {
         m_chassisRunIntake = m_controller.leftTrigger(ControllerConstants.ChassisControls.kChassisIntakeThreshold);
         m_chassisReverseIntake = m_controller.button(ControllerConstants.ChassisControls.kChassisIntakeReverse);
 
+        // only use open right now
+        m_chassisOpenBlocker = m_controller.pov(ControllerConstants.ChassisControls.kDpadDown);
+        m_chassisCloseBlocker = m_controller.pov(ControllerConstants.ChassisControls.kDpadRight);
+
         break;
 
       case kArm:
@@ -81,6 +91,10 @@ public class Controller {
 
         m_openIntake = m_controller.button(ControllerConstants.ArmControls.kOpenIntake);
         m_closeIntake = m_controller.button(ControllerConstants.ArmControls.kCloseIntake);
+
+        // only use openBlocker currently
+        m_chassisOpenBlocker = m_controller.pov(ControllerConstants.ArmControls.kDpadDown);
+        m_chassisCloseBlocker = m_controller.pov(ControllerConstants.ArmControls.kDpadRight);
 
         // shoot positions
         m_runShooterAtHub = m_controller.button(ControllerConstants.ArmControls.kX);
